@@ -3,16 +3,16 @@ package Group
 import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 	"wechatwebapi/models/Tools"
 )
 
-func SetChatRoomName(Data OperateChatRoomInfoParam) wxCilent.ResponseResult {
+func SetChatRoomName(Data OperateChatRoomInfoParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -26,7 +26,7 @@ func SetChatRoomName(Data OperateChatRoomInfoParam) wxCilent.ResponseResult {
 	})
 
 	if GetContact.Data == nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", GetContact.Message),
@@ -35,17 +35,17 @@ func SetChatRoomName(Data OperateChatRoomInfoParam) wxCilent.ResponseResult {
 	}
 
 	ModContact := &mm.ModContact{
-		UserName:              &mm.SKBuiltinStringT{
-			String_:              proto.String(Data.QID),
+		UserName: &mm.SKBuiltinStringT{
+			String_: proto.String(Data.QID),
 		},
-		NickName:              &mm.SKBuiltinStringT{
-			String_:              proto.String(Data.Content),
+		NickName: &mm.SKBuiltinStringT{
+			String_: proto.String(Data.Content),
 		},
 	}
 
 	buffer, err := proto.Marshal(ModContact)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -71,10 +71,10 @@ func SetChatRoomName(Data OperateChatRoomInfoParam) wxCilent.ResponseResult {
 		},
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -83,14 +83,14 @@ func SetChatRoomName(Data OperateChatRoomInfoParam) wxCilent.ResponseResult {
 	}
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Cgiurl:        "/cgi-bin/micromsg-bin/oplog",
 		Proxy:         D.Proxy,
 		Encryption:    5,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqData,
 			Cgi:              681,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -103,8 +103,8 @@ func SetChatRoomName(Data OperateChatRoomInfoParam) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -113,10 +113,10 @@ func SetChatRoomName(Data OperateChatRoomInfoParam) wxCilent.ResponseResult {
 
 	//解包
 	GetContactResponse := mm.OplogResponse{}
-	err = proto.Unmarshal(protobufdata, &GetContactResponse)
+	err = proto.Unmarshal(protobufData, &GetContactResponse)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -124,7 +124,7 @@ func SetChatRoomName(Data OperateChatRoomInfoParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

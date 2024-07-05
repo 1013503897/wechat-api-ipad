@@ -3,7 +3,7 @@ package Label
 import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
@@ -13,10 +13,10 @@ type AddParam struct {
 	LabelName string
 }
 
-func Add(Data AddParam) wxCilent.ResponseResult {
+func Add(Data AddParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -35,18 +35,18 @@ func Add(Data AddParam) wxCilent.ResponseResult {
 			SessionKey:    D.Sessionkey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
-			ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-			DeviceType:    wxCilent.DeviceType_byte,
+			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+			DeviceType:    wxClient.DeviceTypeByte,
 			Scene:         proto.Uint32(0),
 		},
 		LabelCount:    proto.Uint32(1),
 		LabelPairList: LabelPair,
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -55,14 +55,14 @@ func Add(Data AddParam) wxCilent.ResponseResult {
 	}
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Cgiurl:        "/cgi-bin/micromsg-bin/addcontactlabel",
 		Proxy:         D.Proxy,
 		Encryption:    5,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqData,
 			Cgi:              635,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -75,8 +75,8 @@ func Add(Data AddParam) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -85,9 +85,9 @@ func Add(Data AddParam) wxCilent.ResponseResult {
 
 	//解包
 	Response := mm.AddContactLabelResponse{}
-	err = proto.Unmarshal(protobufdata, &Response)
+	err = proto.Unmarshal(protobufData, &Response)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -95,7 +95,7 @@ func Add(Data AddParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

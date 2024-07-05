@@ -3,7 +3,7 @@ package Mmtls
 import (
 	"bytes"
 	"golang.org/x/net/proxy"
-	"io/ioutil"
+	"io"
 	"net"
 	"net/http"
 	"time"
@@ -12,19 +12,16 @@ import (
 
 func (httpclient *HttpClientModel) POST(ip string, cgiurl string, data []byte, host string, P models.ProxyInfo) ([]byte, error) {
 	var dialer proxy.Dialer
-	var iphost string
+	var ipHost string
 	var err error
-	iphost = "http://"
-	iphost += ip
-	iphost += cgiurl
+	ipHost = "http://"
+	ipHost += ip
+	ipHost += cgiurl
 	body := bytes.NewReader(data)
 
 	var c *http.Client
-	//设定代理
-	if P.ProxyIp != "" {
-
+	if P.ProxyIp != "" && P.ProxyIp != "string" {
 		var ProxyUser *proxy.Auth
-
 		if P.ProxyUser != "" && P.ProxyPassword != "" {
 			ProxyUser = &proxy.Auth{
 				User:     P.ProxyUser,
@@ -62,7 +59,7 @@ func (httpclient *HttpClientModel) POST(ip string, cgiurl string, data []byte, h
 		}
 	}
 
-	request, err := http.NewRequest("POST", iphost, body)
+	request, err := http.NewRequest("POST", ipHost, body)
 	if err != nil {
 		return []byte(""), err
 	}
@@ -78,7 +75,7 @@ func (httpclient *HttpClientModel) POST(ip string, cgiurl string, data []byte, h
 		return []byte(""), err
 	}
 	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
+	b, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return []byte(""), err
 	}

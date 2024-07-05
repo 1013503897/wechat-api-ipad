@@ -20,7 +20,7 @@ func GenNewHttpClient(Data *MmtlsClient) (httpclient *HttpClientModel) {
 	httpclientModel := &HttpClientModel{
 		mmtlsClient: mmtlsClient,
 		httpClient:  &http.Client{},
-		curShortip:  Cilent.MMtls_host,
+		curShortip:  Cilent.MmtlsHost,
 	}
 
 	return httpclientModel

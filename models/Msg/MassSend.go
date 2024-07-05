@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 
@@ -20,10 +20,10 @@ type MassSendRequestParam struct {
 	Type    uint32
 }
 
-func MassSend(Data MassSendRequestParam) wxCilent.ResponseResult {
+func MassSend(Data MassSendRequestParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -51,17 +51,17 @@ func MassSend(Data MassSendRequestParam) wxCilent.ResponseResult {
 	}
 
 	//序列化
-	reqdata, _ := proto.Marshal(MsgRequest)
+	reqData, _ := proto.Marshal(MsgRequest)
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Cgiurl:        "/cgi-bin/micromsg-bin/masssend",
 		Proxy:         D.Proxy,
 		Encryption:    5,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqData,
 			Cgi:              193,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -74,8 +74,8 @@ func MassSend(Data MassSendRequestParam) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -84,9 +84,9 @@ func MassSend(Data MassSendRequestParam) wxCilent.ResponseResult {
 
 	//解包
 	NewSendMsgRespone := mm.MassSendResponse{}
-	err = proto.Unmarshal(protobufdata, &NewSendMsgRespone)
+	err = proto.Unmarshal(protobufData, &NewSendMsgRespone)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -94,7 +94,7 @@ func MassSend(Data MassSendRequestParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

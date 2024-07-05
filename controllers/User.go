@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/models/User"
 )
 
@@ -32,7 +32,7 @@ func (c *UserController) VerifySwitch() {
 	var Data User.PrivacySettingsParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -55,7 +55,7 @@ func (c *UserController) UpdateProfile() {
 	var Data User.UpdateProfileParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -78,7 +78,7 @@ func (c *UserController) UploadHeadImage() {
 	var Data User.UploadHeadImageParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -101,7 +101,7 @@ func (c *UserController) VerifyPassword() {
 	var Data User.NewVerifyPasswdParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -124,7 +124,7 @@ func (c *UserController) SetPassword() {
 	var Data User.NewSetPasswdParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),

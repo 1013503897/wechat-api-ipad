@@ -3,7 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/models/Group"
 	"wechatwebapi/models/Tools"
 
@@ -23,7 +23,7 @@ func (c *GroupController) CreateChatRoom() {
 	var Data Group.CreateChatRoomParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -46,7 +46,7 @@ func (c *GroupController) AddChatRoomMember() {
 	var Data Group.AddChatRoomParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -69,7 +69,7 @@ func (c *GroupController) InviteChatRoomMember() {
 	var Data Group.AddChatRoomParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -92,7 +92,7 @@ func (c *GroupController) DelChatRoomMember() {
 	var Data Group.AddChatRoomParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -115,7 +115,7 @@ func (c *GroupController) ScanIntoGroup() {
 	var Data Group.ScanIntoGroupParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -138,7 +138,7 @@ func (c *GroupController) QuitChatroom() {
 	var Data Group.QuitGroupParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -161,7 +161,7 @@ func (c *GroupController) GetChatRoomInfo() {
 	var Data Group.GetChatRoomParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -187,7 +187,7 @@ func (c *GroupController) GetChatRoomInfoDetail() {
 	var Data Group.GetChatRoomParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -210,7 +210,7 @@ func (c *GroupController) GetChatRoomMemberDetail() {
 	var Data Group.GetChatRoomParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -233,7 +233,7 @@ func (c *GroupController) SetChatRoomRemarks() {
 	var Data Group.OperateChatRoomInfoParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -256,7 +256,7 @@ func (c *GroupController) MoveToContract() {
 	var Data Group.MoveContractListParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -279,7 +279,7 @@ func (c *GroupController) SetChatRoomName() {
 	var Data Group.OperateChatRoomInfoParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -302,7 +302,7 @@ func (c *GroupController) OperateChatRoomAdmin() {
 	var Data Group.OperateChatRoomAdminParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -325,7 +325,7 @@ func (c *GroupController) SetChatRoomAnnouncement() {
 	var Data Group.OperateChatRoomInfoParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),

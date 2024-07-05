@@ -3,7 +3,7 @@ package Friend
 import (
 	"fmt"
 	"time"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 
@@ -19,10 +19,10 @@ type SendRequestParam struct {
 	VerifyContent string
 }
 
-func SendRequest(Data SendRequestParam) wxCilent.ResponseResult {
+func SendRequest(Data SendRequestParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -53,7 +53,7 @@ func SendRequest(Data SendRequestParam) wxCilent.ResponseResult {
 	ccData := &mm.CryptoData{
 		Version:     []byte("00000003"),
 		Type:        proto.Uint32(1),
-		EncryptData: wxCilent.GetNewSpamData(D.Deviceid_str, D.DeviceName),
+		EncryptData: wxClient.GetNewSpamData(D.Deviceid_str, D.DeviceName),
 		Timestamp:   proto.Uint32(uint32(time.Now().Unix())),
 		Unknown5:    proto.Uint32(5),
 		Unknown6:    proto.Uint32(0),
@@ -73,8 +73,8 @@ func SendRequest(Data SendRequestParam) wxCilent.ResponseResult {
 			SessionKey:    D.Sessionkey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
-			ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-			DeviceType:    wxCilent.DeviceType_byte,
+			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+			DeviceType:    wxClient.DeviceTypeByte,
 			Scene:         proto.Uint32(0),
 		},
 		Opcode:             proto.Int32(Data.Opcode),
@@ -90,10 +90,10 @@ func SendRequest(Data SendRequestParam) wxCilent.ResponseResult {
 		NeedConfirm: proto.Uint32(1),
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -102,14 +102,14 @@ func SendRequest(Data SendRequestParam) wxCilent.ResponseResult {
 	}
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Cgiurl:        "/cgi-bin/micromsg-bin/verifyuser",
 		Proxy:         D.Proxy,
 		Encryption:    5,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqData,
 			Cgi:              137,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -122,8 +122,8 @@ func SendRequest(Data SendRequestParam) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -132,9 +132,9 @@ func SendRequest(Data SendRequestParam) wxCilent.ResponseResult {
 
 	//解包
 	Response := mm.VerifyUserResponse{}
-	err = proto.Unmarshal(protobufdata, &Response)
+	err = proto.Unmarshal(protobufData, &Response)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -142,7 +142,7 @@ func SendRequest(Data SendRequestParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

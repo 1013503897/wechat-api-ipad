@@ -4,7 +4,7 @@ import (
 	"crypto/md5"
 	"fmt"
 	"time"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/device"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
@@ -12,10 +12,10 @@ import (
 	"github.com/golang/protobuf/proto"
 )
 
-func Secautoauth(Wxid string) wxCilent.ResponseResult {
+func Secautoauth(Wxid string) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -24,7 +24,7 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 	}
 
 	if len(D.Autoauthkey) <= 0 {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: "账号异常：Autoauthkey读取失败",
@@ -35,18 +35,18 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 	Autoauthkey := &mm.AutoAuthKey{}
 	_ = proto.Unmarshal(D.Autoauthkey, Autoauthkey)
 
-	Wx_login_prikey, Wx_login_pubkey := wxCilent.EcdhGen713Key()
+	Wx_login_prikey, Wx_login_pubkey := wxClient.EcdhGen713Key()
 
 	//基础设备信息
 	Imei := device.Imei(D.Deviceid_str)
 	SoftType := device.SoftType(D.Deviceid_str)
-	ClientSeqId := wxCilent.GetClientSeqId(D.Deviceid_str)
+	ClientSeqId := wxClient.GetClientSeqId(D.Deviceid_str)
 
 	//24算法
 	ccData := &mm.CryptoData{
 		Version:     []byte("00000003"),
 		Type:        proto.Uint32(1),
-		EncryptData: wxCilent.GetNewSpamData(D.Deviceid_str, D.DeviceName),
+		EncryptData: wxClient.GetNewSpamData(D.Deviceid_str, D.DeviceName),
 		Timestamp:   proto.Uint32(uint32(time.Now().Unix())),
 		Unknown5:    proto.Uint32(5),
 		Unknown6:    proto.Uint32(0),
@@ -90,8 +90,8 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 				SessionKey:    D.Sessionkey,
 				Uin:           proto.Uint32(D.Uin),
 				DeviceId:      D.Deviceid_byte,
-				ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-				DeviceType:    wxCilent.DeviceType_byte,
+				ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+				DeviceType:    wxClient.DeviceTypeByte,
 				Scene:         proto.Uint32(0),
 			},
 			BaseReqInfo: &mm.BaseAuthReqInfo{},
@@ -114,23 +114,23 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 		},
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	//开始发包请求
-	protobufdata, cookie, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, cookie, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:         D.Mmtlsip,
 		Host:       D.MmtlsHost,
 		Cgiurl:     "/cgi-bin/micromsg-bin/secautoauth",
 		Proxy:      D.Proxy,
 		Encryption: 12,
-		TwelveEncData: wxCilent.PackSpecialCgiData{
-			Reqdata:                    reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{
+			Reqdata:                    reqData,
 			Cgi:                        763,
 			Encrypttype:                12,
 			Extenddata:                 []byte{},
 			Uin:                        D.Uin,
 			Cookies:                    D.Cooike,
-			ClientVersion:              wxCilent.Wx_client_version,
+			ClientVersion:              wxClient.WxClientVersion,
 			HybridEcdhPrivkey:          D.HybridEcdhPrivkey,
 			HybridEcdhPubkey:           D.HybridEcdhPubkey,
 			HybridEcdhInitServerPubKey: D.HybridEcdhInitServerPubKey,
@@ -138,8 +138,8 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -148,9 +148,9 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 
 	//解包
 	UnifyAuthResponse := mm.UnifyAuthResponse{}
-	err = proto.Unmarshal(protobufdata, &UnifyAuthResponse)
+	err = proto.Unmarshal(protobufData, &UnifyAuthResponse)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -161,7 +161,7 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 	loginRes := UnifyAuthResponse
 
 	if loginRes.GetBaseResponse().GetRet() != 0 {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    int64(loginRes.GetBaseResponse().GetRet()),
 			Success: false,
 			Message: *loginRes.GetBaseResponse().GetErrMsg().String_,
@@ -169,14 +169,14 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 		}
 	}
 
-	Wx_loginecdhkey := wxCilent.DoECDH713(Wx_login_prikey, loginRes.GetAuthSectResp().GetSvrPubEcdhkey().GetKey().GetBuffer())
+	Wx_loginecdhkey := wxClient.DoECDH713(Wx_login_prikey, loginRes.GetAuthSectResp().GetSvrPubEcdhkey().GetKey().GetBuffer())
 	Wx_loginecdhkeylen := int32(len(Wx_loginecdhkey))
 	m := md5.New()
 	m.Write(Wx_loginecdhkey[:Wx_loginecdhkeylen])
 	D.Loginecdhkey = Wx_loginecdhkey
 	ecdhdecrptkey := m.Sum(nil)
 	D.Cooike = cookie
-	D.Sessionkey = wxCilent.AesDecrypt(loginRes.GetAuthSectResp().GetSessionKey().GetBuffer(), ecdhdecrptkey)
+	D.Sessionkey = wxClient.AesDecrypt(loginRes.GetAuthSectResp().GetSessionKey().GetBuffer(), ecdhdecrptkey)
 	D.Autoauthkey = loginRes.GetAuthSectResp().GetAutoAuthKey().GetBuffer()
 	D.Autoauthkeylen = int32(loginRes.GetAuthSectResp().GetAutoAuthKey().GetILen())
 	D.Serversessionkey = loginRes.GetAuthSectResp().GetServerSessionKey().GetBuffer()
@@ -186,7 +186,7 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 	err = comm.CreateLoginData(*D, D.Wxid, 0)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -194,7 +194,7 @@ func Secautoauth(Wxid string) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    1,
 		Success: false,
 		Message: "登陆成功",

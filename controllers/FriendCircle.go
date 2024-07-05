@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/models/FriendCircle"
 )
 
@@ -22,7 +22,7 @@ func (c *FriendCircleController) SnsSync() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -46,7 +46,7 @@ func (c *FriendCircleController) SnsTimeline() {
 	var Data FriendCircle.GetListParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -69,7 +69,7 @@ func (c *FriendCircleController) SnsUserPage() {
 	var Data FriendCircle.GetDetailparameter
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -92,7 +92,7 @@ func (c *FriendCircleController) SnsObjectDetail() {
 	var Data FriendCircle.GetIdDetailParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -115,7 +115,7 @@ func (c *FriendCircleController) SnsPost() {
 	var Data FriendCircle.Messagearameter
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -138,7 +138,7 @@ func (c *FriendCircleController) SnsObjectTop() {
 	var Data FriendCircle.OperationParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -161,7 +161,7 @@ func (c *FriendCircleController) SnsComment() {
 	var Data FriendCircle.CommentParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -184,7 +184,7 @@ func (c *FriendCircleController) SnsUpload() {
 	var Data FriendCircle.SnsUploadParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -207,7 +207,7 @@ func (c *FriendCircleController) SetSnsViewTime() {
 	var Data FriendCircle.PrivacySettingsParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	"strings"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
@@ -16,14 +16,14 @@ type UploadHeadImageParam struct {
 	Base64 string
 }
 
-func UploadHeadImage(Data UploadHeadImageParam) wxCilent.ResponseResult {
+func UploadHeadImage(Data UploadHeadImageParam) wxClient.ResponseResult {
 	var err error
-	var protobufdata []byte
-	var errtype int64
+	var protobufData []byte
+	var errType int64
 
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -47,7 +47,7 @@ func UploadHeadImage(Data UploadHeadImageParam) wxCilent.ResponseResult {
 	datalen := 30000
 	datatotalength := ImgStream.Len()
 
-	ImgHash := wxCilent.GetFileMD5Hash(ImgBase64)
+	ImgHash := wxClient.GetFileMD5Hash(ImgBase64)
 
 	I := 0
 
@@ -71,8 +71,8 @@ func UploadHeadImage(Data UploadHeadImageParam) wxCilent.ResponseResult {
 				SessionKey:    D.Sessionkey,
 				Uin:           proto.Uint32(D.Uin),
 				DeviceId:      D.Deviceid_byte,
-				ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-				DeviceType:    wxCilent.DeviceType_byte,
+				ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+				DeviceType:    wxClient.DeviceTypeByte,
 				Scene:         proto.Uint32(0),
 			},
 			TotalLen:    proto.Uint32(uint32(datatotalength)),
@@ -86,17 +86,17 @@ func UploadHeadImage(Data UploadHeadImageParam) wxCilent.ResponseResult {
 		}
 
 		//序列化
-		reqdata, _ := proto.Marshal(req)
+		reqData, _ := proto.Marshal(req)
 
 		//发包
-		protobufdata, _, errtype, err = comm.SendRequest(comm.SendPostData{
+		protobufData, _, errType, err = comm.SendRequest(comm.SendPostData{
 			Ip:            D.Mmtlsip,
 			Cgiurl:        "/cgi-bin/micromsg-bin/uploadhdheadimg",
 			Proxy:         D.Proxy,
 			Encryption:    5,
-			TwelveEncData: wxCilent.PackSpecialCgiData{},
-			PackData: wxCilent.PackData{
-				Reqdata:          reqdata,
+			TwelveEncData: wxClient.PackSpecialCgiData{},
+			PackData: wxClient.PackData{
+				Reqdata:          reqData,
 				Cgi:              157,
 				Uin:              D.Uin,
 				Cookie:           D.Cooike,
@@ -116,8 +116,8 @@ func UploadHeadImage(Data UploadHeadImageParam) wxCilent.ResponseResult {
 	}
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -126,9 +126,9 @@ func UploadHeadImage(Data UploadHeadImageParam) wxCilent.ResponseResult {
 
 	//解包
 	Response := mm.UploadHDHeadImgResponse{}
-	err = proto.Unmarshal(protobufdata, &Response)
+	err = proto.Unmarshal(protobufData, &Response)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -136,7 +136,7 @@ func UploadHeadImage(Data UploadHeadImageParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: false,
 		Message: "成功",

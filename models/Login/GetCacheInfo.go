@@ -2,14 +2,14 @@ package Login
 
 import (
 	"fmt"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/comm"
 )
 
-func CacheInfo(Wxid string) wxCilent.ResponseResult {
+func CacheInfo(Wxid string) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -17,7 +17,7 @@ func CacheInfo(Wxid string) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    1,
 		Success: true,
 		Message: "成功",

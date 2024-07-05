@@ -3,7 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/models/Tools"
 
 	"github.com/astaxie/beego"
@@ -23,7 +23,7 @@ func (c *ToolsController) SetProxy() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -48,7 +48,7 @@ func (c *ToolsController) GetA8Key() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -73,7 +73,7 @@ func (c *ToolsController) MPGetA8Key() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -98,7 +98,7 @@ func (c *ToolsController) GetQrcode() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -123,7 +123,7 @@ func (c *ToolsController) BindMobile() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -148,7 +148,7 @@ func (c *ToolsController) DownloadVoice() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -184,7 +184,7 @@ func (c *ToolsController) DelSafetyInfo() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),

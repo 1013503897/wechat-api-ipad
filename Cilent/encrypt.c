@@ -21,9 +21,7 @@
 #include "encrypt.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> /* memset */
-#include <unistd.h> /* close */
-
+#include <string.h>
 
 #define nullptr NULL
 typedef short int int16_t;
@@ -399,7 +397,6 @@ int nativewcswbaes(char* library,char* srcbuffer, unsigned int srcbuffersize,
 
    int makeKeyHash(int key)
    {
-   	// TODO: 在此处添加实现代码.
    	int a=0, b=0;
    	int a_result =0, b_result = 0;
 	int i;

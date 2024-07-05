@@ -4,14 +4,14 @@ import (
 	"github.com/golang/protobuf/proto"
 	log "github.com/sirupsen/logrus"
 	"time"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/device"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
 
 func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuthResponse, []byte, []byte) {
-	Wx_login_prikey, Wx_login_pubkey := wxCilent.EcdhGen713Key()
+	Wx_login_prikey, Wx_login_pubkey := wxClient.EcdhGen713Key()
 	var Wx_login_pubkeylen, Wx_login_prikeylen int32
 	if len(Wx_login_prikey) > 0 && len(Wx_login_pubkey) > 0 {
 		Wx_login_pubkeylen = int32(len(Wx_login_pubkey))
@@ -20,7 +20,7 @@ func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuth
 
 	log.Info(Wx_login_prikeylen)
 
-	aeskey := []byte(wxCilent.RandSeq(16)) //获取随机密钥
+	aeskey := []byte(wxClient.RandSeq(16)) //获取随机密钥
 	accountRequest := &mm.ManualAuthRsaReqData{
 		RandomEncryKey: &mm.SKBuiltinBufferT{
 			ILen:   proto.Uint32(uint32(len(aeskey))),
@@ -40,7 +40,7 @@ func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuth
 	ccData := &mm.CryptoData{
 		Version:     []byte("00000003"),
 		Type:        proto.Uint32(1),
-		EncryptData: wxCilent.GetNewSpamData(Data.Deviceid_str, "ipad7,5"),
+		EncryptData: wxClient.GetNewSpamData(Data.Deviceid_str, "ipad7,5"),
 		Timestamp:   proto.Uint32(uint32(time.Now().Unix())),
 		Unknown5:    proto.Uint32(5),
 		Unknown6:    proto.Uint32(0),
@@ -54,7 +54,7 @@ func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuth
 	}
 
 	WCExtInfoseq, _ := proto.Marshal(WCExtInfo)
-	ClientSeqId := wxCilent.GetClientSeqId(Data.Deviceid_str)
+	ClientSeqId := wxClient.GetClientSeqId(Data.Deviceid_str)
 	Imei := device.Imei(Data.Deviceid_str)
 	SoftType := device.SoftType(Data.Deviceid_str)
 	uuid1, _ := device.Uuid(Data.Deviceid_str)
@@ -64,8 +64,8 @@ func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuth
 			SessionKey:    aeskey,
 			Uin:           proto.Uint32(0),
 			DeviceId:      Data.Deviceid_byte,
-			ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-			DeviceType:    wxCilent.DeviceType_byte,
+			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+			DeviceType:    wxClient.DeviceTypeByte,
 			Scene:         proto.Uint32(1),
 		},
 		BaseReqInfo:  &mm.BaseAuthReqInfo{},
@@ -80,7 +80,7 @@ func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuth
 		Channel:      proto.Int(0),
 		TimeStamp:    proto.Uint32(uint32(time.Now().Unix())),
 		DeviceBrand:  proto.String("Apple"),
-		Ostype:       &wxCilent.DeviceType_str,
+		Ostype:       &wxClient.DeviceTypeStr,
 		RealCountry:  proto.String("CN"),
 		BundleId:     proto.String("com.tencent.xin"),
 		AdSource:     &uuid1,
@@ -96,23 +96,23 @@ func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuth
 		RsaReqData: accountRequest,
 		AesReqData: deviceRequest,
 	}
-	reqdata, err := proto.Marshal(requset)
+	reqData, err := proto.Marshal(requset)
 
 	//开始发包请求
-	protobufdata, cookie, _, err := comm.SendRequest(comm.SendPostData{
+	protobufData, cookie, _, err := comm.SendRequest(comm.SendPostData{
 		Ip:         mmtlsip,
 		Host:       mmtlshost,
 		Cgiurl:     "/cgi-bin/micromsg-bin/secmanualauth",
 		Proxy:      Data.Proxy,
 		Encryption: 12,
-		TwelveEncData: wxCilent.PackSpecialCgiData{
-			Reqdata:                    reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{
+			Reqdata:                    reqData,
 			Cgi:                        252,
 			Encrypttype:                12,
 			Extenddata:                 []byte{},
 			Uin:                        0,
 			Cookies:                    []byte{},
-			ClientVersion:              wxCilent.Wx_client_version,
+			ClientVersion:              wxClient.WxClientVersion,
 			HybridEcdhPrivkey:          Data.HybridEcdhPrivkey,
 			HybridEcdhPubkey:           Data.HybridEcdhPubkey,
 			HybridEcdhInitServerPubKey: Data.HybridEcdhInitServerPubKey,
@@ -120,7 +120,7 @@ func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuth
 	}, Data.MmtlsKey)
 
 	loginRes := mm.UnifyAuthResponse{}
-	err = proto.Unmarshal(protobufdata, &loginRes)
+	err = proto.Unmarshal(protobufData, &loginRes)
 	if err == nil {
 		return loginRes, Wx_login_prikey, cookie
 	}

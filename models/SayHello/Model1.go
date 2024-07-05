@@ -2,7 +2,7 @@ package SayHello
 
 import (
 	"fmt"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/bts"
 	"wechatwebapi/comm"
 	"wechatwebapi/models/Friend"
@@ -13,11 +13,11 @@ type Model1Param struct {
 	Url  string
 }
 
-//扫码打招呼
-func Model1(Data Model1Param) wxCilent.ResponseResult {
+// 扫码打招呼
+func Model1(Data Model1Param) wxClient.ResponseResult {
 	_, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -26,7 +26,7 @@ func Model1(Data Model1Param) wxCilent.ResponseResult {
 	}
 
 	if Data.Url == "" {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -9,
 			Success: false,
 			Message: "Url是二维码的URL地址",
@@ -45,7 +45,7 @@ func Model1(Data Model1Param) wxCilent.ResponseResult {
 	Search := bts.SearchContactResponse(S.Data)
 
 	if *Search.AntispamTicket == "" {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -9,
 			Success: false,
 			Message: "V2提取失败,请检查二维码URL是否正确或有效",
@@ -62,7 +62,7 @@ func Model1(Data Model1Param) wxCilent.ResponseResult {
 		VerifyContent: "",
 	})
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

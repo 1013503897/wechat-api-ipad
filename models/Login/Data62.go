@@ -3,31 +3,31 @@ package Login
 import (
 	"encoding/hex"
 	"fmt"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/device"
 	"wechatwebapi/comm"
 	"wechatwebapi/models"
 )
 
 type ManualAuthReq struct {
-	UserName   string
-	Password   string
-	DeviceData string
-	AndroidDevice string
-	AndroidOstype string
-	AndroidBuild string
+	UserName        string
+	Password        string
+	DeviceData      string
+	AndroidDevice   string
+	AndroidOstype   string
+	AndroidBuild    string
 	AndroidBaseBand string
-	AndroidID string
-	Mac string
-	Iccid string
-	Imsi string
-	PhoneSerial string
-	Proxy      models.ProxyInfo
+	AndroidID       string
+	Mac             string
+	Iccid           string
+	Imsi            string
+	PhoneSerial     string
+	Proxy           models.ProxyInfo
 }
 
-func Data62Login(D ManualAuthReq) wxCilent.ResponseResult {
+func Data62Login(D ManualAuthReq) wxClient.ResponseResult {
 	if D.UserName == "" || D.Password == "" {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: "请输入账号或密码",
@@ -38,7 +38,7 @@ func Data62Login(D ManualAuthReq) wxCilent.ResponseResult {
 	//初始化Mmtls
 	_, MmtlsClient, err := comm.MmtlsInitialize(D.Proxy)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("MMTLS初始化失败：%v", err.Error()),
@@ -46,13 +46,13 @@ func Data62Login(D ManualAuthReq) wxCilent.ResponseResult {
 		}
 	}
 
-	devicelId := wxCilent.Get62Key(D.DeviceData)
+	devicelId := wxClient.Get62Key(D.DeviceData)
 	println(devicelId)
 	devicelId = "49" + devicelId[2:]
 	println(devicelId)
 	devicelIdByte, _ := hex.DecodeString(devicelId)
 
-	HybridEcdhInitServerPubKey, HybridEcdhPrivkey, HybridEcdhPubkey := wxCilent.HybridEcdhInit()
+	HybridEcdhInitServerPubKey, HybridEcdhPrivkey, HybridEcdhPubkey := wxClient.HybridEcdhInit()
 
 	LoginData := comm.LoginData{
 		Wxid:                       D.UserName,
@@ -60,8 +60,8 @@ func Data62Login(D ManualAuthReq) wxCilent.ResponseResult {
 		Deviceid_str:               devicelId,
 		Deviceid_byte:              devicelIdByte,
 		DeviceName:                 "iPad7,5",
-		Mmtlsip:                    wxCilent.MMtls_ip,
-		MmtlsHost:                  wxCilent.MMtls_host,
+		Mmtlsip:                    wxClient.MmtlsIp,
+		MmtlsHost:                  wxClient.MmtlsHost,
 		HybridEcdhPrivkey:          HybridEcdhPrivkey,
 		HybridEcdhPubkey:           HybridEcdhPubkey,
 		HybridEcdhInitServerPubKey: HybridEcdhInitServerPubKey,
@@ -69,5 +69,5 @@ func Data62Login(D ManualAuthReq) wxCilent.ResponseResult {
 		MmtlsKey:                   MmtlsClient,
 	}
 
-	return CheckSecManualAuth(LoginData, wxCilent.MMtls_ip, wxCilent.MMtls_host)
+	return CheckSecManualAuth(LoginData, wxClient.MmtlsIp, wxClient.MmtlsHost)
 }

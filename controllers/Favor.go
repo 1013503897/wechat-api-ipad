@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/models/Favor"
 )
 
@@ -29,12 +29,12 @@ func (c *FavorController) GetFavInfo() {
 // @Success 200
 // @router /FavSync [post]
 func (c *FavorController) FavSync() {
-	var reqdata Favor.SyncParam
+	var reqData Favor.SyncParam
 	data := c.Ctx.Input.RequestBody
-	err := json.Unmarshal(data, &reqdata)
+	err := json.Unmarshal(data, &reqData)
 
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -45,7 +45,7 @@ func (c *FavorController) FavSync() {
 		return
 	}
 
-	WXDATA := Favor.Sync(reqdata)
+	WXDATA := Favor.Sync(reqData)
 	c.Data["json"] = &WXDATA
 	c.ServeJSON()
 }
@@ -55,12 +55,12 @@ func (c *FavorController) FavSync() {
 // @Success 200
 // @router /GetFavItem [post]
 func (c *FavorController) GetFavItem() {
-	var reqdata Favor.GetFavItemParam
+	var reqData Favor.GetFavItemParam
 	data := c.Ctx.Input.RequestBody
-	err := json.Unmarshal(data, &reqdata)
+	err := json.Unmarshal(data, &reqData)
 
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -71,7 +71,7 @@ func (c *FavorController) GetFavItem() {
 		return
 	}
 
-	WXDATA := Favor.GetFavItem(reqdata)
+	WXDATA := Favor.GetFavItem(reqData)
 	c.Data["json"] = &WXDATA
 	c.ServeJSON()
 }
@@ -81,12 +81,12 @@ func (c *FavorController) GetFavItem() {
 // @Success 200
 // @router /DelFavItem [post]
 func (c *FavorController) DelFavItem() {
-	var reqdata Favor.DelParam
+	var reqData Favor.DelParam
 	data := c.Ctx.Input.RequestBody
-	err := json.Unmarshal(data, &reqdata)
+	err := json.Unmarshal(data, &reqData)
 
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -97,7 +97,7 @@ func (c *FavorController) DelFavItem() {
 		return
 	}
 
-	WXDATA := Favor.Del(reqdata)
+	WXDATA := Favor.Del(reqData)
 	c.Data["json"] = &WXDATA
 	c.ServeJSON()
 }

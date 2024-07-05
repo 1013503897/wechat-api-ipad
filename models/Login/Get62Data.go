@@ -1,7 +1,7 @@
 package Login
 
 import (
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/comm"
 )
 
@@ -10,5 +10,5 @@ func Get62Data(Wxid string) string {
 	if err != nil {
 		return err.Error()
 	}
-	return wxCilent.Get62Data(D.Deviceid_str)
+	return wxClient.Get62Data(D.Deviceid_str)
 }

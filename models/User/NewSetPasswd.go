@@ -5,21 +5,21 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
 
 type NewSetPasswdParam struct {
-	Wxid        string
+	Wxid     string
 	Password string
-	Ticket      string
+	Ticket   string
 }
 
-func NewSetPasswd(Data NewSetPasswdParam) wxCilent.ResponseResult {
+func NewSetPasswd(Data NewSetPasswdParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -44,10 +44,10 @@ func NewSetPasswd(Data NewSetPasswdParam) wxCilent.ResponseResult {
 		},
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -57,22 +57,22 @@ func NewSetPasswd(Data NewSetPasswdParam) wxCilent.ResponseResult {
 
 	S2801, _ := hex.DecodeString("2801")
 
-	reqdataA := new(bytes.Buffer)
-	reqdataA.Write(reqdata)
+	reqDataA := new(bytes.Buffer)
+	reqDataA.Write(reqData)
 
 	if len(D.Deviceid_byte) <= 16 {
-		reqdataA.Write(S2801)
+		reqDataA.Write(S2801)
 	}
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Cgiurl:        "/cgi-bin/micromsg-bin/newsetpasswd",
 		Proxy:         D.Proxy,
 		Encryption:    5,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdataA.Bytes(),
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqDataA.Bytes(),
 			Cgi:              383,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -85,8 +85,8 @@ func NewSetPasswd(Data NewSetPasswdParam) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -95,9 +95,9 @@ func NewSetPasswd(Data NewSetPasswdParam) wxCilent.ResponseResult {
 
 	//解包
 	Response := mm.SetPwdResponse{}
-	err = proto.Unmarshal(protobufdata, &Response)
+	err = proto.Unmarshal(protobufData, &Response)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -110,7 +110,7 @@ func NewSetPasswd(Data NewSetPasswdParam) wxCilent.ResponseResult {
 		D.Autoauthkey = Response.AutoAuthKey.Buffer
 		err = comm.CreateLoginData(*D, D.Wxid, 0)
 		if err != nil {
-			return wxCilent.ResponseResult{
+			return wxClient.ResponseResult{
 				Code:    -8,
 				Success: false,
 				Message: fmt.Sprintf("AutoAuthKey保存失败：%v", err.Error()),
@@ -119,7 +119,7 @@ func NewSetPasswd(Data NewSetPasswdParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

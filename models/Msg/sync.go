@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
@@ -32,10 +32,10 @@ type SyncResponse struct {
 	Remarks         string
 }
 
-func Sync(Data SyncParam) wxCilent.ResponseResult {
+func Sync(Data SyncParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -65,10 +65,10 @@ func Sync(Data SyncParam) wxCilent.ResponseResult {
 		SyncMsgDigest: proto.Uint32(3),
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -77,14 +77,14 @@ func Sync(Data SyncParam) wxCilent.ResponseResult {
 	}
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Cgiurl:        "/cgi-bin/micromsg-bin/newsync",
 		Proxy:         D.Proxy,
 		Encryption:    0,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqData,
 			Cgi:              138,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -97,8 +97,8 @@ func Sync(Data SyncParam) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -107,9 +107,9 @@ func Sync(Data SyncParam) wxCilent.ResponseResult {
 
 	//解包
 	NewSyncResponse := mm.NewSyncResponse{}
-	err = proto.Unmarshal(protobufdata, &NewSyncResponse)
+	err = proto.Unmarshal(protobufData, &NewSyncResponse)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -163,7 +163,7 @@ func Sync(Data SyncParam) wxCilent.ResponseResult {
 			}
 		}
 
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    0,
 			Success: true,
 			Message: "成功",
@@ -189,7 +189,7 @@ func Sync(Data SyncParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "当前未有新消息",

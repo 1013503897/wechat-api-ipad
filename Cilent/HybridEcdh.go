@@ -28,10 +28,10 @@ func HybridEcdhInit() (HybridEcdhInitServerPubKey, HybridEcdhPrivkey, HybridEcdh
 }
 
 type HybridEcdhEncryptData struct {
-	Src []byte
-	Externkey []byte
-	HybridEcdhPrivkey []byte
-	HybridEcdhPubkey  []byte
+	Src                        []byte
+	Externkey                  []byte
+	HybridEcdhPrivkey          []byte
+	HybridEcdhPubkey           []byte
 	HybridEcdhInitServerPubKey []byte
 }
 
@@ -61,7 +61,6 @@ func HybridHkdfExpand(prikey []byte, salt []byte, info []byte, outLen int) []byt
 	T := h.Sum(nil)
 	return HkdfExpand(sha256.New, T, info, outLen)
 }
-
 
 func HybridEcdhEncrypt(Data HybridEcdhEncryptData) (ret_bytes []byte) {
 	ecdhkey := DoECDH415(Data.HybridEcdhPrivkey, Data.HybridEcdhInitServerPubKey)
@@ -111,11 +110,11 @@ func HybridEcdhEncrypt(Data HybridEcdhEncryptData) (ret_bytes []byte) {
 		Randomkeyextenddata: mExternEncryptdata,
 		Encyptdata:          mEncryptdataFinal,
 	}
-	reqdata, _ := proto.Marshal(HybridEcdhRequest)
-	return reqdata
+	reqData, _ := proto.Marshal(HybridEcdhRequest)
+	return reqData
 }
 
-func  HybridEcdhDecrypt(src_bytes []byte, HybridEcdhPrivkey []byte) (ret_bytes []byte) {
+func HybridEcdhDecrypt(src_bytes []byte, HybridEcdhPrivkey []byte) (ret_bytes []byte) {
 	HybridEcdhResponse := &mm.HybridEcdhResponse{}
 	err := proto.Unmarshal(src_bytes, HybridEcdhResponse)
 	if err == nil {
@@ -165,10 +164,9 @@ func UnpackBusinessHybridEcdhPacket(data []byte, uin uint32, cookies *[]byte, Hy
 		nCur += int64(nLenProtobuf)
 		body = data[nLenHeader:]
 	}
-	protobufdata := HybridEcdhDecrypt(body,HybridEcdhPrivkey)
-	return protobufdata
+	protobufData := HybridEcdhDecrypt(body, HybridEcdhPrivkey)
+	return protobufData
 }
-
 
 func DoECDH713(privD, pubData []byte) []byte {
 	X, Y := elliptic.Unmarshal(elliptic.P224(), pubData)

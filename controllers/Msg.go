@@ -3,7 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/models/Msg"
 
 	"github.com/astaxie/beego"
@@ -23,7 +23,7 @@ func (c *MsgController) NewSync() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -48,7 +48,7 @@ func (c *MsgController) SendAppMsg() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -73,7 +73,7 @@ func (c *MsgController) SendMsg() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -98,7 +98,7 @@ func (c *MsgController) SendImg() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -123,7 +123,7 @@ func (c *MsgController) SendVoice() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -148,7 +148,7 @@ func (c *MsgController) SendVideo() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -173,7 +173,7 @@ func (c *MsgController) ShareCard() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -203,7 +203,7 @@ func (c *MsgController) ShareLocation() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -233,7 +233,7 @@ func (c *MsgController) RevokeMsg() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -258,7 +258,7 @@ func (c *MsgController) MassSend() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),

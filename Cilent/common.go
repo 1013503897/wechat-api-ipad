@@ -11,18 +11,12 @@ import (
 	"crypto/sha1"
 	"encoding/binary"
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"hash"
 	"hash/crc32"
 	"io"
-	math_rand "math/rand"
-	"os"
-	"os/exec"
-	"path/filepath"
-	"runtime"
+	mathrand "math/rand"
 	"strconv"
-	"strings"
 	"time"
 	"wechatwebapi/Cilent/device"
 
@@ -30,10 +24,10 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-//Hkdf_Expand
+// Hkdf_Expand
 func Hkdf_Expand(h func() hash.Hash, prk, info []byte, outLen int) []byte {
-	out := []byte{}
-	T := []byte{}
+	var out []byte
+	var T []byte
 	i := byte(1)
 	for len(out) < outLen {
 		block := append(T, info...)
@@ -49,60 +43,11 @@ func Hkdf_Expand(h func() hash.Hash, prk, info []byte, outLen int) []byte {
 	return out[:outLen]
 }
 
-func GetCurrentPath() (string, error) {
-	file, err := exec.LookPath(os.Args[0])
-	if err != nil {
-		return "", err
-	}
-	path, err := filepath.Abs(file)
-	if err != nil {
-		return "", err
-	}
-	if runtime.GOOS == "windows" {
-		path = strings.Replace(path, "\\", "/", -1)
-	}
-	i := strings.LastIndex(path, "/")
-	if i < 0 {
-		return "", errors.New(`Can't find "/" or "\".`)
-	}
-	return string(path[0 : i+1]), nil
-}
-
-func PathExists(path string) bool {
-	_, err := os.Stat(path)
-	if err == nil {
-		return true
-	}
-	if os.IsNotExist(err) {
-		return false
-	}
-	return false
-}
-
-func readAllIntoMemory(filename string) (content []byte, err error) {
-	fp, err := os.Open(filename) // 获取文件指针
-	if err != nil {
-		return nil, err
-	}
-	defer fp.Close()
-
-	fileInfo, err := fp.Stat()
-	if err != nil {
-		return nil, err
-	}
-	buffer := make([]byte, fileInfo.Size())
-	_, err = fp.Read(buffer) // 文件内容读取到buffer中
-	if err != nil {
-		return nil, err
-	}
-	return buffer, nil
-}
-
 func RandSeq(n int) string {
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	b := make([]rune, n)
 	for i := range b {
-		b[i] = letters[math_rand.Intn(len(letters))]
+		b[i] = letters[mathrand.Intn(len(letters))]
 	}
 	return string(b)
 }
@@ -162,7 +107,7 @@ func RqtCalcData(srcdata []byte) int {
 
 }
 
-//进行zlib压缩
+// 进行zlib压缩
 func DoZlibCompress(src []byte) []byte {
 	var in bytes.Buffer
 	w, _ := zlib.NewWriterLevel(&in, zlib.DefaultCompression)
@@ -171,7 +116,7 @@ func DoZlibCompress(src []byte) []byte {
 	return in.Bytes()
 }
 
-//进行zlib解压缩
+// 进行zlib解压缩
 func DoZlibUnCompress(compressSrc []byte) []byte {
 	b := bytes.NewReader(compressSrc)
 	var out bytes.Buffer
@@ -185,7 +130,7 @@ func PackSpecialCgi(Data PackSpecialCgiData) []byte {
 	header.Write([]byte{0xbf})
 	header.Write([]byte{0x02}) //加密模式占坑,默认不压缩走12
 
-	encryptdata := HybridEcdhEncrypt(HybridEcdhEncryptData{
+	encryptData := HybridEcdhEncrypt(HybridEcdhEncryptData{
 		Src:                        Data.Reqdata,
 		Externkey:                  Data.Extenddata,
 		HybridEcdhPubkey:           Data.HybridEcdhPubkey,
@@ -193,8 +138,8 @@ func PackSpecialCgi(Data PackSpecialCgiData) []byte {
 		HybridEcdhInitServerPubKey: Data.HybridEcdhInitServerPubKey,
 	})
 
-	cookielen := len(Data.Cookies)
-	header.Write([]byte{byte((Data.Encrypttype << 4) + cookielen)})
+	cookieLen := len(Data.Cookies)
+	header.Write([]byte{byte((Data.Encrypttype << 4) + cookieLen)})
 	binary.Write(header, binary.BigEndian, int32(Data.ClientVersion))
 	if Data.Uin != 0 {
 		binary.Write(header, binary.BigEndian, int32(Data.Uin))
@@ -210,24 +155,24 @@ func PackSpecialCgi(Data PackSpecialCgiData) []byte {
 	header.Write(proto.EncodeVarint(uint64(len(Data.Reqdata))))
 	header.Write(proto.EncodeVarint(uint64(len(Data.Reqdata))))
 	header.Write([]byte{0x90, 0x4E, 0x0D, 0x00, 0xFF})
-	header.Write(proto.EncodeVarint(uint64(RqtCalcData(encryptdata))))
+	header.Write(proto.EncodeVarint(uint64(RqtCalcData(encryptData))))
 	header.Write([]byte{0x00})
 	lens := len(header.Bytes())<<2 + 2
 	header.Bytes()[1] = byte(lens)
-	header.Write(encryptdata)
+	header.Write(encryptData)
 	return header.Bytes()
 }
 
 func AesGcmEncryptWithCompress(key []byte, plaintext []byte, nonce []byte, aad []byte) []byte {
 	compressData := DoZlibCompress(plaintext)
 	//nonce := []byte(randSeq(12)) //获取随机密钥
-	encrypt_data := NewAES_GCMEncrypter(key, compressData, nonce, aad)
-	outdata := encrypt_data[:len(encrypt_data)-16]
-	retdata := new(bytes.Buffer)
-	retdata.Write(outdata)
-	retdata.Write(nonce)
-	retdata.Write(encrypt_data[len(encrypt_data)-16:])
-	return retdata.Bytes()
+	encryptData := NewAES_GCMEncrypter(key, compressData, nonce, aad)
+	outData := encryptData[:len(encryptData)-16]
+	retData := new(bytes.Buffer)
+	retData.Write(outData)
+	retData.Write(nonce)
+	retData.Write(encryptData[len(encryptData)-16:])
+	return retData.Bytes()
 }
 
 func HkdfExpand(h func() hash.Hash, prk, info []byte, outLen int) []byte {
@@ -265,9 +210,9 @@ func AesGcmDecryptWithUncompress(key []byte, ciphertext []byte, aad []byte) []by
 	data := new(bytes.Buffer)
 	data.Write(ciphertextinput)
 	data.Write(ciphertext[len(ciphertext)-0x10 : len(ciphertext)])
-	decrypt_data := NewAES_GCMDecrypter(key, data.Bytes(), endatanonce, aad)
-	if len(decrypt_data) > 0 {
-		return DoZlibUnCompress(decrypt_data)
+	decryptData := NewAES_GCMDecrypter(key, data.Bytes(), endatanonce, aad)
+	if len(decryptData) > 0 {
+		return DoZlibUnCompress(decryptData)
 	} else {
 		return []byte{}
 	}
@@ -315,9 +260,9 @@ func PKCS5UnPadding(origData []byte) []byte {
 func PKCS5Padding(ciphertext []byte, blockSize int) []byte {
 	padding := blockSize - len(ciphertext)%blockSize
 	//填充
-	padtext := bytes.Repeat([]byte{byte(padding)}, padding)
+	padText := bytes.Repeat([]byte{byte(padding)}, padding)
 
-	return append(ciphertext, padtext...)
+	return append(ciphertext, padText...)
 }
 
 func XorEncodeStr(msg string, key uint8) string {
@@ -339,77 +284,6 @@ func CompressAndAes(RequestSerialize []byte, aeskey []byte) []byte {
 	compressed := DoZlibCompress(RequestSerialize)
 	return AesEncrypt(compressed, aeskey)
 }
-
-/*func Pack(Pack PackData) []byte {
-	var body []byte
-	if Pack.UseCompress {
-		switch Pack.Cgi {
-		case 138:
-			Pack.EncryptType = 13
-			mNonce := []byte(RandSeq(12)) //获取随机密钥
-			body = AesGcmEncryptWithCompress(Pack.Clientsessionkey,Pack.Reqdata, mNonce, nil)
-		default:
-			body = CompressAndAes(Pack.Reqdata,Pack.Sessionkey)
-		}
-	} else {
-		switch Pack.Cgi {
-		case 138:
-			Pack.EncryptType = 13
-			mNonce := []byte(RandSeq(12)) //获取随机密钥
-			body = AesGcmEncryptWithCompress(Pack.Clientsessionkey,Pack.Reqdata, mNonce, nil)
-		default:
-			body = AesEncrypt(Pack.Reqdata,Pack.Sessionkey)
-		}
-	}
-
-	loginecdhkeylen := int32(len(Pack.Loginecdhkey))
-
-	header := new(bytes.Buffer)
-	header.Write([]byte{0xbf})
-	header.Write([]byte{0x00})
-	header.Write([]byte{((Pack.EncryptType << 4) + 0xf)})
-	binary.Write(header, binary.BigEndian, int32(Wx_client_version))
-	binary.Write(header, binary.BigEndian, int32(Pack.Uin))
-	header.Write(Pack.Cookie)
-	header.Write(proto.EncodeVarint(uint64(Pack.Cgi)))
-	header.Write(proto.EncodeVarint(uint64(len(Pack.Reqdata))))
-	header.Write(proto.EncodeVarint(uint64(len(body))))
-	header.Write([]byte{0x00, 0x0d}) //占坑
-	uinbyte := new(bytes.Buffer)
-	binary.Write(uinbyte, binary.BigEndian, Pack.Uin)
-	m1 := md5.New()
-	m1.Write(uinbyte.Bytes())
-	m1.Write(Pack.Loginecdhkey[:loginecdhkeylen])
-	md5str := m1.Sum(nil)
-
-	lenprotobuf := new(bytes.Buffer)
-	binary.Write(lenprotobuf, binary.BigEndian, int32(len(Pack.Reqdata)))
-	m2 := md5.New()
-	m2.Write(lenprotobuf.Bytes())
-	m2.Write(Pack.Loginecdhkey[:loginecdhkeylen])
-	m2.Write(md5str)
-
-	md5str = m2.Sum(nil)
-	adler32buffer := new(bytes.Buffer)
-	adler32buffer.Write(md5str)
-	adler32buffer.Write(Pack.Reqdata)
-	//header.Write(proto.EncodeVarint(uint64(LOGIN_RSA_VER)))
-	adler32 := crc32.ChecksumIEEE(adler32buffer.Bytes())
-	header.Write(proto.EncodeVarint(uint64(adler32)))
-	header.Write([]byte{0xFF})                                  //占坑
-	header.Write(proto.EncodeVarint(uint64(RqtCalcData(body)))) //占坑
-	header.Write([]byte{0x00})                                  //占坑
-	if Pack.UseCompress {
-		lens := (len(header.Bytes()) << 2) + 1
-		header.Bytes()[1] = byte(lens)
-	} else {
-		lens := (len(header.Bytes()) << 2) + 2
-		header.Bytes()[1] = byte(lens)
-	}
-	header.Write(body)
-	return header.Bytes()
-
-}*/
 
 func Pack(src []byte, cgi int, uin uint32, sessionkey, cookies, clientsessionkey, loginecdhkey []byte, encryptType uint8, use_compress bool) []byte {
 	len_proto_compressed := len(src)
@@ -438,7 +312,7 @@ func Pack(src []byte, cgi int, uin uint32, sessionkey, cookies, clientsessionkey
 	header.Write([]byte{0xbf})
 	header.Write([]byte{0x00})
 	header.Write([]byte{((encryptType << 4) + 0xf)})
-	binary.Write(header, binary.BigEndian, int32(Wx_client_version))
+	binary.Write(header, binary.BigEndian, int32(WxClientVersion))
 	binary.Write(header, binary.BigEndian, int32(uin))
 	header.Write(cookies)
 	header.Write(proto.EncodeVarint(uint64(cgi)))
@@ -558,8 +432,8 @@ func UnpackBusinessPacketWithAesGcm(src []byte, uin uint32, cookie *[]byte, Serv
 		_, nLenProtobuf := proto.DecodeVarint(LenProtobufData)
 		nCur += int64(nLenProtobuf)
 		body := src[nLenHeader:]
-		protobufdata := AesGcmDecryptWithUncompress(Serversessionkey, body, nil)
-		return protobufdata
+		protobufData := AesGcmDecryptWithUncompress(Serversessionkey, body, nil)
+		return protobufData
 
 	}
 	return nil
@@ -630,14 +504,14 @@ func RSAEncrypt(data []byte) []byte {
 	return out
 }*/
 
-//PKCS7Padding 使用PKCS7进行填充，IOS也是7
+// PKCS7Padding 使用PKCS7进行填充，IOS也是7
 func PKCS7Padding(ciphertext []byte, blockSize int) []byte {
 	padding := blockSize - len(ciphertext)%blockSize
-	padtext := bytes.Repeat([]byte{byte(padding)}, padding)
-	return append(ciphertext, padtext...)
+	padText := bytes.Repeat([]byte{byte(padding)}, padding)
+	return append(ciphertext, padText...)
 }
 
-//PKCS7UnPadding 去除填充
+// PKCS7UnPadding 去除填充
 func PKCS7UnPadding(origData []byte) []byte {
 	length := len(origData)
 	unpadding := int(origData[length-1])
@@ -659,8 +533,8 @@ func Get62Key(Key string) string {
 	return string(K)
 }
 
-func Get62Data(DevicelId string) string {
-	return "62706c6973743030d4010203040506090a582476657273696f6e58246f626a65637473592461726368697665725424746f7012000186a0a2070855246e756c6c5f1020" + hex.EncodeToString([]byte(DevicelId)) + "5f100f4e534b657965644172636869766572d10b0c54726f6f74800108111a232d32373a406375787d0000000000000101000000000000000d0000000000000000000000000000007f"
+func Get62Data(DeviceId string) string {
+	return "62706c6973743030d4010203040506090a582476657273696f6e58246f626a65637473592461726368697665725424746f7012000186a0a2070855246e756c6c5f1020" + hex.EncodeToString([]byte(DeviceId)) + "5f100f4e534b657965644172636869766572d10b0c54726f6f74800108111a232d32373a406375787d0000000000000101000000000000000d0000000000000000000000000000007f"
 }
 
 func RandomHex(n int) (string, error) {
@@ -677,8 +551,8 @@ func Get16Data() string {
 }
 
 func GetFileMD5Hash(Data []byte) string {
-	hash := md5.New()
-	hash.Write(Data)
-	retVal := hash.Sum(nil)
+	h := md5.New()
+	h.Write(Data)
+	retVal := h.Sum(nil)
 	return hex.EncodeToString(retVal)
 }

@@ -5,10 +5,94 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9fbd94a-ccaf-4659-b20d-ddeb87a49177" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/github/img/wechat.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/wechatwebapi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wechatwebapi.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cilent/HybridEcdh.go" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/HybridEcdh.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cilent/NewSpamData.go" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/NewSpamData.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cilent/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/common.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cilent/encrypt.c" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/encrypt.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cilent/encrypt.h" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/encrypt.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cilent/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/util.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mmtls/GenNewHttpClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/Mmtls/GenNewHttpClient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mmtls/Post.go" beforeDir="false" afterPath="$PROJECT_DIR$/Mmtls/Post.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comm/Mmtls.go" beforeDir="false" afterPath="$PROJECT_DIR$/comm/Mmtls.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/app.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/Favor.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/Favor.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/Login.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/Login.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Favor/GetFavInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Favor/GetFavInfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Favor/GetFavItem.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Favor/GetFavItem.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Favor/Sync.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Favor/Sync.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Favor/del.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Favor/del.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Finder/UserPrepare.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Finder/UserPrepare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/Blacklist.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/Blacklist.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/DelFriend.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/DelFriend.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/GetContactDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/GetContactDetail.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/GetContactList.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/GetContactList.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/GetContactStatus.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/GetContactStatus.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/GetMFriend.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/GetMFriend.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/Search.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/Search.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/SendRequest.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/SendRequest.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/SetRemarks.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/SetRemarks.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Friend/Upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/Upload.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/FriendCircle/Comment.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/Comment.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/FriendCircle/GetDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/GetDetail.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/FriendCircle/GetIdDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/GetIdDetail.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/FriendCircle/GetList.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/GetList.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/FriendCircle/MmSnsSync.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/MmSnsSync.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/FriendCircle/Operation.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/Operation.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/FriendCircle/PrivacySettings.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/PrivacySettings.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/FriendCircle/SnsPost.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/SnsPost.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/FriendCircle/SnsUpload.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/SnsUpload.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/AddChatRoomMember.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/AddChatRoomMember.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/CreateChatRoom.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/CreateChatRoom.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/DelChatRoomMember.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/DelChatRoomMember.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/GetChatRoomInfoDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/GetChatRoomInfoDetail.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/GetChatRoomMemberDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/GetChatRoomMemberDetail.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/InviteChatRoomMember.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/InviteChatRoomMember.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/MoveToContract.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/MoveToContract.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/OperateChatRoomAdmin.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/OperateChatRoomAdmin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/Quit.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/Quit.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/ScanIntoGroup.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/ScanIntoGroup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/SetChatRoomAnnouncement.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/SetChatRoomAnnouncement.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/SetChatRoomName.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/SetChatRoomName.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Group/SetChatRoomRemarks.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/SetChatRoomRemarks.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Label/Add.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/Add.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Label/Delete.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/Delete.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Label/GetList.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/GetList.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Label/UpdateList.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/UpdateList.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Label/UpdateName.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/UpdateName.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/AwakenLogin.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/AwakenLogin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/CheckSecManualAuth.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/CheckSecManualAuth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/CheckUuid.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/CheckUuid.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/Data62.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/Data62.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/GetQRCode.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/GetQRCode.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/HeartBeat.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/HeartBeat.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/LogOut.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/LogOut.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/Newinit.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/Newinit.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/SecManualAuth.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/SecManualAuth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Login/Secautoauth.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/Secautoauth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Msg/MassSend.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/MassSend.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Msg/RevokeMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/RevokeMsg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Msg/SendAppMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendAppMsg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Msg/SendImageMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendImageMsg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Msg/SendNewMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendNewMsg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Msg/SendVideoMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendVideoMsg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Msg/SendVoiceMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendVoiceMsg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Msg/sync.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/sync.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Tools/BindMobile.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/BindMobile.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Tools/DelSafetyInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/DelSafetyInfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Tools/DownloadVoice.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/DownloadVoice.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Tools/GetA8Key.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/GetA8Key.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Tools/GetContact.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/GetContact.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Tools/GetQrcode.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/GetQrcode.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Tools/GetSafetyInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/GetSafetyInfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Tools/MPGetA8key.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/MPGetA8key.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/User/GetContractProfile.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/GetContractProfile.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/User/NewSetPasswd.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/NewSetPasswd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/User/NewVerifyPasswd.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/NewVerifyPasswd.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/User/PrivacySettings.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/PrivacySettings.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/User/UpdateProfile.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/UpdateProfile.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/User/UploadHeadImage.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/UploadHeadImage.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,10 +194,22 @@
       <replace />
     </replaceStrings>
   </component>
-  <component name="GOROOT" url="file://$USER_HOME$/.gvm/gos/go1.21.5" />
+  <component name="GOROOT" url="file://D:/Program Files/Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;1013503897&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/1013503897/wechat-api-ipad.git&quot;,
+    &quot;accountId&quot;: &quot;1327970c-6ebd-45cd-a407-ffd573bbe9f0&quot;
+  }
+}</component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="true" />
   </component>
@@ -130,10 +226,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="y" value="23" />
     <option name="width" value="1440" />
@@ -181,6 +277,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Go Build.go build main.go.executor": "Run",
+    "Go Build.go build wechatwebapi.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -189,7 +287,7 @@
     "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/wangrui/Dev/Golang/ipad协议/wechatapis/github/img",
+    "last_opened_file_path": "C:/Users/wxy",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm"
@@ -200,7 +298,7 @@
       <recent name="$PROJECT_DIR$/github/img" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 构建.go build main.go">
+  <component name="RunManager">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="wechatwebapi" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -209,14 +307,6 @@
       <package value="wechatwebapi 2" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="wechatwebapi" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build wechatwebapi" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
@@ -239,10 +329,11 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Go 构建.go build main.go" />
-      <item itemvalue="Go 构建.go build wechatwebapi" />
-    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build wechatwebapi" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -259,7 +350,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-gosdk-266795519c66-911b893a1778-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-233.13135.104" />
+        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.18034.61" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-GO-241.18034.61" />
       </set>
     </attachedChunks>
   </component>
@@ -358,28 +450,6 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1238" height="198" key="GridCell.Tab.0.bottom" timestamp="1591983972206">
-      <screen x="0" y="0" width="1280" height="800" />
-    </state>
-    <state width="1238" height="198" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1591983972206" />
-    <state width="1238" height="198" key="GridCell.Tab.0.center" timestamp="1591983972205">
-      <screen x="0" y="0" width="1280" height="800" />
-    </state>
-    <state width="1238" height="198" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1591983972205" />
-    <state width="1238" height="198" key="GridCell.Tab.0.left" timestamp="1591983972204">
-      <screen x="0" y="0" width="1280" height="800" />
-    </state>
-    <state width="1238" height="198" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1591983972204" />
-    <state width="1238" height="198" key="GridCell.Tab.0.right" timestamp="1591983972205">
-      <screen x="0" y="0" width="1280" height="800" />
-    </state>
-    <state width="1238" height="198" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1591983972205" />
-    <state x="296" y="146" width="837" height="572" key="find.popup" timestamp="1592046785449">
-      <screen x="0" y="0" width="1280" height="800" />
-    </state>
-    <state x="296" y="146" width="837" height="572" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1592046785449" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/go.mod">

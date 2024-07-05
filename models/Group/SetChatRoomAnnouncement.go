@@ -3,15 +3,15 @@ package Group
 import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
 
-func SetChatRoomAnnouncement(Data OperateChatRoomInfoParam) wxCilent.ResponseResult {
+func SetChatRoomAnnouncement(Data OperateChatRoomInfoParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -20,23 +20,23 @@ func SetChatRoomAnnouncement(Data OperateChatRoomInfoParam) wxCilent.ResponseRes
 	}
 
 	req := &mm.SetChatRoomAnnouncementRequest{
-		BaseRequest:          &mm.BaseRequest{
+		BaseRequest: &mm.BaseRequest{
 			SessionKey:    D.Sessionkey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
-			ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-			DeviceType:    wxCilent.DeviceType_byte,
+			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+			DeviceType:    wxClient.DeviceTypeByte,
 			Scene:         proto.Uint32(0),
 		},
-		ChatRoomName:         proto.String(Data.QID),
-		Announcement:         proto.String(Data.Content),
-		SetAnnouncementFlag:  proto.Int32(1),
+		ChatRoomName:        proto.String(Data.QID),
+		Announcement:        proto.String(Data.Content),
+		SetAnnouncementFlag: proto.Int32(1),
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -45,14 +45,14 @@ func SetChatRoomAnnouncement(Data OperateChatRoomInfoParam) wxCilent.ResponseRes
 	}
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Cgiurl:        "/cgi-bin/micromsg-bin/setchatroomannouncement",
 		Proxy:         D.Proxy,
 		Encryption:    5,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqData,
 			Cgi:              993,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -65,8 +65,8 @@ func SetChatRoomAnnouncement(Data OperateChatRoomInfoParam) wxCilent.ResponseRes
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -75,9 +75,9 @@ func SetChatRoomAnnouncement(Data OperateChatRoomInfoParam) wxCilent.ResponseRes
 
 	//解包
 	Response := mm.SetChatRoomAnnouncementResponse{}
-	err = proto.Unmarshal(protobufdata, &Response)
+	err = proto.Unmarshal(protobufData, &Response)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -85,7 +85,7 @@ func SetChatRoomAnnouncement(Data OperateChatRoomInfoParam) wxCilent.ResponseRes
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

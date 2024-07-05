@@ -7,7 +7,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"strings"
 	"time"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
@@ -17,15 +17,15 @@ type SnsUploadParam struct {
 	Base64 string
 }
 
-func SnsUpload(Data SnsUploadParam) wxCilent.ResponseResult {
+func SnsUpload(Data SnsUploadParam) wxClient.ResponseResult {
 	var err error
-	var protobufdata []byte
-	var errtype int64
+	var protobufData []byte
+	var errType int64
 	var Bs64Data []byte
 
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -43,7 +43,7 @@ func SnsUpload(Data SnsUploadParam) wxCilent.ResponseResult {
 
 	Stream := bytes.NewBuffer(Bs64Data)
 
-	Bs64MD5 := wxCilent.GetFileMD5Hash(Bs64Data)
+	Bs64MD5 := wxClient.GetFileMD5Hash(Bs64Data)
 
 	Startpos := 0
 	datalen := 50000
@@ -73,8 +73,8 @@ func SnsUpload(Data SnsUploadParam) wxCilent.ResponseResult {
 				SessionKey:    D.Sessionkey,
 				Uin:           proto.Uint32(D.Uin),
 				DeviceId:      D.Deviceid_byte,
-				ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-				DeviceType:    wxCilent.DeviceType_byte,
+				ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+				DeviceType:    wxClient.DeviceTypeByte,
 				Scene:         proto.Uint32(0),
 			},
 			Type:     proto.Uint32(2),
@@ -89,17 +89,17 @@ func SnsUpload(Data SnsUploadParam) wxCilent.ResponseResult {
 		}
 
 		//序列化
-		reqdata, _ := proto.Marshal(req)
+		reqData, _ := proto.Marshal(req)
 
 		//发包
-		protobufdata, _, errtype, err = comm.SendRequest(comm.SendPostData{
+		protobufData, _, errType, err = comm.SendRequest(comm.SendPostData{
 			Ip:            D.Mmtlsip,
 			Cgiurl:        "/cgi-bin/micromsg-bin/mmsnsupload",
 			Proxy:         D.Proxy,
 			Encryption:    5,
-			TwelveEncData: wxCilent.PackSpecialCgiData{},
-			PackData: wxCilent.PackData{
-				Reqdata:          reqdata,
+			TwelveEncData: wxClient.PackSpecialCgiData{},
+			PackData: wxClient.PackData{
+				Reqdata:          reqData,
 				Cgi:              207,
 				Uin:              D.Uin,
 				Cookie:           D.Cooike,
@@ -119,8 +119,8 @@ func SnsUpload(Data SnsUploadParam) wxCilent.ResponseResult {
 	}
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -129,9 +129,9 @@ func SnsUpload(Data SnsUploadParam) wxCilent.ResponseResult {
 
 	//解包
 	Response := mm.SnsUploadResponse{}
-	err = proto.Unmarshal(protobufdata, &Response)
+	err = proto.Unmarshal(protobufData, &Response)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -139,7 +139,7 @@ func SnsUpload(Data SnsUploadParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: false,
 		Message: "成功",

@@ -6,4 +6,4 @@ int nativewcswbaes(char* library,char *srcbuffer, unsigned int srcbuffersize,
                      unsigned int encodetype,
                      char *outbuffer, unsigned int *outbufferlen);
 
-                     int makeKeyHash(int key);
+int makeKeyHash(int key);

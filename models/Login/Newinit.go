@@ -3,7 +3,7 @@ package Login
 import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
@@ -22,10 +22,10 @@ type newinitResponse struct {
 	Remarks         string
 }
 
-func Newinit(Wxid, cursync, maxsync string) wxCilent.ResponseResult {
+func Newinit(Wxid, cursync, maxsync string) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -49,8 +49,8 @@ func Newinit(Wxid, cursync, maxsync string) wxCilent.ResponseResult {
 			SessionKey:    D.Sessionkey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
-			ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-			DeviceType:    wxCilent.DeviceType_byte,
+			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+			DeviceType:    wxClient.DeviceTypeByte,
 			Scene:         proto.Uint32(0),
 		},
 		UserName: &D.Wxid,
@@ -65,10 +65,10 @@ func Newinit(Wxid, cursync, maxsync string) wxCilent.ResponseResult {
 		Language: proto.String("zh"),
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -77,15 +77,15 @@ func Newinit(Wxid, cursync, maxsync string) wxCilent.ResponseResult {
 	}
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Host:          D.MmtlsHost,
 		Cgiurl:        "/cgi-bin/micromsg-bin/newinit",
 		Proxy:         D.Proxy,
 		Encryption:    5,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqData,
 			Cgi:              139,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -98,8 +98,8 @@ func Newinit(Wxid, cursync, maxsync string) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -108,9 +108,9 @@ func Newinit(Wxid, cursync, maxsync string) wxCilent.ResponseResult {
 
 	//解包
 	NewInitResponse := mm.NewInitResponse{}
-	err = proto.Unmarshal(protobufdata, &NewInitResponse)
+	err = proto.Unmarshal(protobufData, &NewInitResponse)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -149,7 +149,7 @@ func Newinit(Wxid, cursync, maxsync string) wxCilent.ResponseResult {
 			}
 		}
 
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    0,
 			Success: true,
 			Message: "成功",
@@ -169,7 +169,7 @@ func Newinit(Wxid, cursync, maxsync string) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    -8,
 		Success: false,
 		Message: "失败：未知原因",

@@ -3,7 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/models/Friend"
 
 	"github.com/astaxie/beego"
@@ -22,7 +22,7 @@ func (c *FriendController) SearchContact() {
 	var Data Friend.SearchParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -45,7 +45,7 @@ func (c *FriendController) VerifyUser() {
 	var Data Friend.SendRequestParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -68,7 +68,7 @@ func (c *FriendController) UploadMContact() {
 	var Data Friend.UploadParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -91,7 +91,7 @@ func (c *FriendController) DeleteFromContact() {
 	var Data Friend.UploadParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -125,7 +125,7 @@ func (c *FriendController) GetContactList() {
 	var Data Friend.GetContactListparameter
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -148,7 +148,7 @@ func (c *FriendController) GetContact() {
 	var Data Friend.GetContactDetailparameter
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -171,7 +171,7 @@ func (c *FriendController) GetContactStatus() {
 	var Data Friend.GetContactStatusParameter
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -194,7 +194,7 @@ func (c *FriendController) SetContactRemarks() {
 	var Data Friend.SetRemarksParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -217,7 +217,7 @@ func (c *FriendController) SetContactBlacklist() {
 	var Data Friend.BlacklistParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -240,7 +240,7 @@ func (c *FriendController) DelFriend() {
 	var Data Friend.DelFriendParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),

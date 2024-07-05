@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 
@@ -21,14 +21,14 @@ type SendVoiceMessageParam struct {
 	Type      int32
 }
 
-func SendVoiceMsg(Data SendVoiceMessageParam) wxCilent.ResponseResult {
+func SendVoiceMsg(Data SendVoiceMessageParam) wxClient.ResponseResult {
 	var err error
-	var protobufdata []byte
-	var errtype int64
+	var protobufData []byte
+	var errType int64
 
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -88,8 +88,8 @@ func SendVoiceMsg(Data SendVoiceMessageParam) wxCilent.ResponseResult {
 				SessionKey:    D.Sessionkey,
 				Uin:           proto.Uint32(D.Uin),
 				DeviceId:      D.Deviceid_byte,
-				ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-				DeviceType:    wxCilent.DeviceType_byte,
+				ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+				DeviceType:    wxClient.DeviceTypeByte,
 				Scene:         proto.Uint32(0),
 			},
 			CancelFlag:  proto.Uint32(0),
@@ -101,17 +101,17 @@ func SendVoiceMsg(Data SendVoiceMessageParam) wxCilent.ResponseResult {
 		}
 
 		//序列化
-		reqdata, _ := proto.Marshal(req)
+		reqData, _ := proto.Marshal(req)
 
 		//发包
-		protobufdata, _, errtype, err = comm.SendRequest(comm.SendPostData{
+		protobufData, _, errType, err = comm.SendRequest(comm.SendPostData{
 			Ip:            D.Mmtlsip,
 			Cgiurl:        "/cgi-bin/micromsg-bin/uploadvoice",
 			Proxy:         D.Proxy,
 			Encryption:    5,
-			TwelveEncData: wxCilent.PackSpecialCgiData{},
-			PackData: wxCilent.PackData{
-				Reqdata:          reqdata,
+			TwelveEncData: wxClient.PackSpecialCgiData{},
+			PackData: wxClient.PackData{
+				Reqdata:          reqData,
 				Cgi:              127,
 				Uin:              D.Uin,
 				Cookie:           D.Cooike,
@@ -131,8 +131,8 @@ func SendVoiceMsg(Data SendVoiceMessageParam) wxCilent.ResponseResult {
 	}
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -141,9 +141,9 @@ func SendVoiceMsg(Data SendVoiceMessageParam) wxCilent.ResponseResult {
 
 	//解包
 	Response := mm.UploadVoiceResponse{}
-	err = proto.Unmarshal(protobufdata, &Response)
+	err = proto.Unmarshal(protobufData, &Response)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -151,7 +151,7 @@ func SendVoiceMsg(Data SendVoiceMessageParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: false,
 		Message: "成功",

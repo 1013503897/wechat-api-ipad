@@ -4,12 +4,13 @@ import "hash"
 
 // 0x17000841 708
 // 0x17000C2B 712
+// 0x1800322B 850
 
-var Wx_client_version = 0x17000C2B
-var MMtls_ip = "szshort.weixin.qq.com"
-var MMtls_host = "extshort.weixin.qq.com"
-var DeviceType_byte = []byte("iPad iOS13.3.1")
-var DeviceType_str = "iPad iOS13.3.1"
+var WxClientVersion = 0x1800322B
+var MmtlsIp = "szshort.weixin.qq.com"
+var MmtlsHost = "extshort.weixin.qq.com"
+var DeviceTypeByte = []byte("iPad iOS13.3.1")
+var DeviceTypeStr = "iPad iOS13.3.1"
 
 var HybridDecryptHash hash.Hash
 var HybridServerpubhashFinal hash.Hash

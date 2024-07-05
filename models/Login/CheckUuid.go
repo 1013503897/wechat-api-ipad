@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	"time"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
 
-func CheckUuid(Uuid string) wxCilent.ResponseResult {
+func CheckUuid(Uuid string) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Uuid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -27,8 +27,8 @@ func CheckUuid(Uuid string) wxCilent.ResponseResult {
 			SessionKey:    D.Aeskey,
 			Uin:           proto.Uint32(0),
 			DeviceId:      D.Deviceid_byte,
-			ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-			DeviceType:    wxCilent.DeviceType_byte,
+			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+			DeviceType:    wxClient.DeviceTypeByte,
 			Scene:         proto.Uint32(0),
 		},
 		RandomEncryKey: &mm.SKBuiltinBufferT{
@@ -40,10 +40,10 @@ func CheckUuid(Uuid string) wxCilent.ResponseResult {
 		Opcode:    proto.Uint32(0),
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -54,20 +54,20 @@ func CheckUuid(Uuid string) wxCilent.ResponseResult {
 	//组包发包
 
 	//开始请求发包
-	protobufdata, cookie, errtype, err := comm.SendRequest(comm.SendPostData{
-		Ip:         wxCilent.MMtls_ip,
-		Host:       wxCilent.MMtls_host,
+	protobufData, cookie, errType, err := comm.SendRequest(comm.SendPostData{
+		Ip:         wxClient.MmtlsIp,
+		Host:       wxClient.MmtlsHost,
 		Cgiurl:     "/cgi-bin/micromsg-bin/checkloginqrcode",
 		Proxy:      D.Proxy,
 		Encryption: 12,
-		TwelveEncData: wxCilent.PackSpecialCgiData{
-			Reqdata:                    reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{
+			Reqdata:                    reqData,
 			Cgi:                        502,
 			Encrypttype:                12,
 			Extenddata:                 []byte{},
 			Uin:                        0,
 			Cookies:                    []byte{},
-			ClientVersion:              wxCilent.Wx_client_version,
+			ClientVersion:              wxClient.WxClientVersion,
 			HybridEcdhPrivkey:          D.HybridEcdhPrivkey,
 			HybridEcdhPubkey:           D.HybridEcdhPubkey,
 			HybridEcdhInitServerPubKey: D.HybridEcdhInitServerPubKey,
@@ -75,8 +75,8 @@ func CheckUuid(Uuid string) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -84,9 +84,9 @@ func CheckUuid(Uuid string) wxCilent.ResponseResult {
 	}
 
 	checkloginQRRes := mm.CheckLoginQRCodeResponse{}
-	err = proto.Unmarshal(protobufdata, &checkloginQRRes)
+	err = proto.Unmarshal(protobufData, &checkloginQRRes)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -96,7 +96,7 @@ func CheckUuid(Uuid string) wxCilent.ResponseResult {
 
 	if checkloginQRRes.GetBaseResponse().GetRet() == 0 {
 		if checkloginQRRes.GetNotifyPkg().GetNotifyData().GetBuffer() == nil {
-			return wxCilent.ResponseResult{
+			return wxClient.ResponseResult{
 				Code:    -8,
 				Success: false,
 				Message: "异常：扫码状态返回的交互key不存在",
@@ -104,12 +104,12 @@ func CheckUuid(Uuid string) wxCilent.ResponseResult {
 			}
 		}
 
-		notifydata := wxCilent.AesDecrypt(checkloginQRRes.GetNotifyPkg().GetNotifyData().GetBuffer(), D.NotifyKey)
+		notifydata := wxClient.AesDecrypt(checkloginQRRes.GetNotifyPkg().GetNotifyData().GetBuffer(), D.NotifyKey)
 		if notifydata != nil {
 			notifydataRsp := mm.LoginQRCodeNotify{}
 			err := proto.Unmarshal(notifydata, &notifydataRsp)
 			if err != nil {
-				return wxCilent.ResponseResult{
+				return wxClient.ResponseResult{
 					Code:    -2,
 					Success: false,
 					Message: "解包异常",
@@ -122,10 +122,10 @@ func CheckUuid(Uuid string) wxCilent.ResponseResult {
 				D.Wxid = notifydataRsp.GetUserName()
 				D.Pwd = notifydataRsp.GetPwd()
 				D.Cooike = cookie
-				return CheckSecManualAuth(*D, wxCilent.MMtls_ip, wxCilent.MMtls_host)
+				return CheckSecManualAuth(*D, wxClient.MmtlsIp, wxClient.MmtlsHost)
 			}
 
-			return wxCilent.ResponseResult{
+			return wxClient.ResponseResult{
 				Code:    0,
 				Success: true,
 				Message: "成功",
@@ -134,7 +134,7 @@ func CheckUuid(Uuid string) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    -0,
 		Success: false,
 		Message: "未知的错误",

@@ -6,17 +6,17 @@ import (
 	"encoding/xml"
 	"fmt"
 	"strings"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/comm"
 )
 
-func CheckSecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) wxCilent.ResponseResult {
+func CheckSecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) wxClient.ResponseResult {
 	//开始登陆
 	loginRes, Wx_login_prikey, Cookie := SecManualAuth(Data, mmtlsip, mmtlshost)
 
 	//登陆成功
 	if loginRes.GetBaseResponse().GetRet() == 0 && loginRes.GetUnifyAuthSectFlag() > 0 {
-		Wx_loginecdhkey := wxCilent.DoECDH713(Wx_login_prikey, loginRes.GetAuthSectResp().GetSvrPubEcdhkey().GetKey().GetBuffer())
+		Wx_loginecdhkey := wxClient.DoECDH713(Wx_login_prikey, loginRes.GetAuthSectResp().GetSvrPubEcdhkey().GetKey().GetBuffer())
 		Wx_loginecdhkeylen := int32(len(Wx_loginecdhkey))
 		m := md5.New()
 		m.Write(Wx_loginecdhkey[:Wx_loginecdhkeylen])
@@ -30,7 +30,7 @@ func CheckSecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) wxCilent
 		Data.Mobile = loginRes.GetAcctSectResp().GetBindMobile()
 		Data.NickName = loginRes.GetAcctSectResp().GetNickName()
 		Data.Cooike = Cookie
-		Data.Sessionkey = wxCilent.AesDecrypt(loginRes.GetAuthSectResp().GetSessionKey().GetBuffer(), ecdhdecrptkey)
+		Data.Sessionkey = wxClient.AesDecrypt(loginRes.GetAuthSectResp().GetSessionKey().GetBuffer(), ecdhdecrptkey)
 		Data.Sessionkey_2 = loginRes.GetAuthSectResp().GetSessionKey().GetBuffer()
 		Data.Autoauthkey = loginRes.GetAuthSectResp().GetAutoAuthKey().GetBuffer()
 		Data.Autoauthkeylen = int32(loginRes.GetAuthSectResp().GetAutoAuthKey().GetILen())
@@ -39,13 +39,13 @@ func CheckSecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) wxCilent
 		Data.AuthTicket = loginRes.GetAuthSectResp().GetAuthTicket()
 		Data.Mmtlsip = mmtlsip
 		Data.MmtlsHost = mmtlshost
-		Data.ClientVersion = wxCilent.Wx_client_version
-		Data.DeviceType = wxCilent.DeviceType_str
+		Data.ClientVersion = wxClient.WxClientVersion
+		Data.DeviceType = wxClient.DeviceTypeStr
 
 		err := comm.CreateLoginData(Data, Data.Wxid, 0)
 
 		if err != nil {
-			return wxCilent.ResponseResult{
+			return wxClient.ResponseResult{
 				Code:    -8,
 				Success: false,
 				Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -60,7 +60,7 @@ func CheckSecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) wxCilent
 			Mobile   string
 		}
 
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    0,
 			Success: true,
 			Message: "登陆成功",
@@ -117,7 +117,7 @@ func CheckSecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) wxCilent
 	}
 
 	//否则就是包有问题
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    int64(loginRes.GetBaseResponse().GetRet()),
 		Success: false,
 		Message: filterRetMessage(*loginRes.GetBaseResponse().GetErrMsg().String_),

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/models/Label"
 )
 
@@ -32,7 +32,7 @@ func (c *LabelController) AddContactLabel() {
 	var Data Label.AddParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -55,7 +55,7 @@ func (c *LabelController) UpdateContactLabelList() {
 	var Data Label.UpdateListParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -78,7 +78,7 @@ func (c *LabelController) UpdateContactLabel() {
 	var Data Label.UpdateNameParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -101,7 +101,7 @@ func (c *LabelController) DeleteContactLabel() {
 	var Data Label.DeleteParam
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &Data)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),

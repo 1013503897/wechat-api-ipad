@@ -1,9 +1,9 @@
 package Login
 
 import (
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 )
 
 func Get16Data() string {
-	return wxCilent.Get16Data()
+	return wxClient.Get16Data()
 }

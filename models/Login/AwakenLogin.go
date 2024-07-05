@@ -5,15 +5,15 @@ import (
 	"github.com/golang/protobuf/proto"
 	"strconv"
 	"time"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
 
-func AwakenLogin(Wxid string) wxCilent.ResponseResult {
+func AwakenLogin(Wxid string) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -24,7 +24,7 @@ func AwakenLogin(Wxid string) wxCilent.ResponseResult {
 	//初始化Mmtls
 	_, MmtlsClient, err := comm.MmtlsInitialize(D.Proxy)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("MMTLS初始化失败：%v", err.Error()),
@@ -40,8 +40,8 @@ func AwakenLogin(Wxid string) wxCilent.ResponseResult {
 			SessionKey:    D.Sessionkey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
-			ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-			DeviceType:    wxCilent.DeviceType_byte,
+			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+			DeviceType:    wxClient.DeviceTypeByte,
 			Scene:         proto.Uint32(0),
 		},
 		Autoauthticket: proto.String(""),
@@ -59,10 +59,10 @@ func AwakenLogin(Wxid string) wxCilent.ResponseResult {
 		Username: proto.String(D.Wxid),
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -71,20 +71,20 @@ func AwakenLogin(Wxid string) wxCilent.ResponseResult {
 	}
 
 	//开始发包
-	protobufdata, cookie, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, cookie, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:         D.Mmtlsip,
 		Host:       D.MmtlsHost,
 		Cgiurl:     "/cgi-bin/micromsg-bin/pushloginurl",
 		Proxy:      D.Proxy,
 		Encryption: 12,
-		TwelveEncData: wxCilent.PackSpecialCgiData{
-			Reqdata:                    reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{
+			Reqdata:                    reqData,
 			Cgi:                        654,
 			Encrypttype:                12,
 			Extenddata:                 []byte{},
 			Uin:                        D.Uin,
 			Cookies:                    D.Cooike,
-			ClientVersion:              wxCilent.Wx_client_version,
+			ClientVersion:              wxClient.WxClientVersion,
 			HybridEcdhPrivkey:          D.HybridEcdhPrivkey,
 			HybridEcdhPubkey:           D.HybridEcdhPubkey,
 			HybridEcdhInitServerPubKey: D.HybridEcdhInitServerPubKey,
@@ -92,8 +92,8 @@ func AwakenLogin(Wxid string) wxCilent.ResponseResult {
 	}, MmtlsClient)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -102,9 +102,9 @@ func AwakenLogin(Wxid string) wxCilent.ResponseResult {
 
 	//解包
 	PushLoginURLResponse := mm.PushLoginURLResponse{}
-	err = proto.Unmarshal(protobufdata, &PushLoginURLResponse)
+	err = proto.Unmarshal(protobufData, &PushLoginURLResponse)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -128,7 +128,7 @@ func AwakenLogin(Wxid string) wxCilent.ResponseResult {
 	}, "", 300)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("Redis ERROR：%v", err.Error()),
@@ -136,7 +136,7 @@ func AwakenLogin(Wxid string) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

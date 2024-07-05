@@ -4,9 +4,9 @@ var version = 0x27000d34
 var deviceType_byte = []byte("android-27")
 var deviceType_str = "android-27"
 
-//func A16Login(Data ManualAuthReq, IP, domain string) wxCilent.ResponseResult {
+//func A16Login(Data ManualAuthReq, IP, domain string) wxClient.ResponseResult {
 //	if Data.UserName == "" || Data.Password == "" {
-//		return wxCilent.ResponseResult{
+//		return wxClient.ResponseResult{
 //			Code:    -8,
 //			Success: false,
 //			Message: "请输入账号或密码",
@@ -21,7 +21,7 @@ var deviceType_str = "android-27"
 //	//初始化Mmtls
 //	httpclient, MmtlsClient, err := ioscomm.MmtlsInitialize(Data.Proxy)
 //	if err != nil {
-//		return wxCilent.ResponseResult{
+//		return wxClient.ResponseResult{
 //			Code:    -8,
 //			Success: false,
 //			Message: fmt.Sprintf("MMTLS初始化失败：%v", err.Error()),
@@ -102,7 +102,7 @@ var deviceType_str = "android-27"
 //	recvData, err := httpclient.MMtlsPost(IP, domain, tii.GetUri(), hypack, Data.Proxy)
 //
 //	if err != nil {
-//		return wxCilent.ResponseResult{
+//		return wxClient.ResponseResult{
 //			Code:    -8,
 //			Success: false,
 //			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -129,7 +129,7 @@ var deviceType_str = "android-27"
 //	recvData1, err := httpclient.MMtlsPost(IP, domain, secauth.GetUri(), hypack1, Data.Proxy)
 //
 //	if err != nil {
-//		return wxCilent.ResponseResult{
+//		return wxClient.ResponseResult{
 //			Code:    -8,
 //			Success: false,
 //			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -148,7 +148,7 @@ var deviceType_str = "android-27"
 //	err = proto.Unmarshal(hec1.Decrypt(ph1.Data), &loginRes)
 //
 //	if err != nil {
-//		return wxCilent.ResponseResult{
+//		return wxClient.ResponseResult{
 //			Code:    -8,
 //			Success: false,
 //			Message: fmt.Sprintf("解包失败：%v", err.Error()),
@@ -170,7 +170,7 @@ var deviceType_str = "android-27"
 //		err = secauth.OnResponse(loginRes, LoginData)
 //
 //		if err != nil {
-//			return wxCilent.ResponseResult{
+//			return wxClient.ResponseResult{
 //				Code:    -8,
 //				Success: false,
 //				Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -178,7 +178,7 @@ var deviceType_str = "android-27"
 //			}
 //		}
 //
-//		return wxCilent.ResponseResult{
+//		return wxClient.ResponseResult{
 //			Code:    0,
 //			Success: true,
 //			Message: loginRes.GetBaseResponse().GetErrMsg().String(),
@@ -191,7 +191,7 @@ var deviceType_str = "android-27"
 //		return A16Login(Data, strings.Replace(string(loginRes.NetworkSectResp.BuiltinIPList.ShortConnectIPList[1].IP), string(byte(0x00)), "", -1), strings.Replace(string(loginRes.NetworkSectResp.BuiltinIPList.ShortConnectIPList[1].Domain), string(byte(0x00)), "", -1))
 //	}
 //
-//	return wxCilent.ResponseResult{
+//	return wxClient.ResponseResult{
 //		Code:    int64(loginRes.GetBaseResponse().GetRet()),
 //		Success: false,
 //		Message: *loginRes.GetBaseResponse().GetErrMsg().String_,

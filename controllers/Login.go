@@ -3,12 +3,12 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	wxCilent "wechatwebapi/Cilent"
-	"wechatwebapi/models/Login"
 	"github.com/astaxie/beego"
+	wxClient "wechatwebapi/Cilent"
+	"wechatwebapi/models/Login"
 )
 
-// 登陆
+// LoginController 登陆
 type LoginController struct {
 	beego.Controller
 }
@@ -19,9 +19,9 @@ type LoginController struct {
 // @router /GetLoginQrcode [post]
 func (c *LoginController) GetLoginQrcode() {
 	/*//获取相关秘钥
-	HybridEcdhInitServerPubKey, HybridEcdhPrivkey, HybridEcdhPubkey := wxCilent.HybridEcdhInit()
-	httpclient := wxCilent.GenNewHttpClient()
-	ret := httpclient.InitMmtlsShake(wxCilent.MMtls_ip)
+	HybridEcdhInitServerPubKey, HybridEcdhPrivkey, HybridEcdhPubkey := wxClient.HybridEcdhInit()
+	httpclient := wxClient.GenNewHttpClient()
+	ret := httpclient.InitMmtlsShake(wxClient.MMtls_ip)
 	if !ret {
 
 	}*/
@@ -29,7 +29,7 @@ func (c *LoginController) GetLoginQrcode() {
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &GetQR)
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -40,7 +40,7 @@ func (c *LoginController) GetLoginQrcode() {
 		return
 	}
 	//生成设备ID
-	DeviceID := wxCilent.CreateDeviceId(GetQR.DeviceID)
+	DeviceID := wxClient.CreateDeviceId(GetQR.DeviceID)
 	if GetQR.DeviceName == "" {
 		GetQR.DeviceName = "iPad"
 	}
@@ -77,12 +77,12 @@ func (c *LoginController) AutoAuth() {
 // @Failure 200
 // @router /Manualauth [post]
 func (c *LoginController) Manualauth() {
-	var reqdata Login.ManualAuthReq
+	var reqData Login.ManualAuthReq
 	data := c.Ctx.Input.RequestBody
-	err := json.Unmarshal(data, &reqdata)
+	err := json.Unmarshal(data, &reqData)
 
 	if err != nil {
-		Result := wxCilent.ResponseResult{
+		Result := wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -93,7 +93,7 @@ func (c *LoginController) Manualauth() {
 		return
 	}
 
-	WXDATA := Login.Data62Login(reqdata)
+	WXDATA := Login.Data62Login(reqData)
 	c.Data["json"] = &WXDATA
 	c.ServeJSON()
 }
@@ -153,7 +153,7 @@ func (c *LoginController) GetCacheInfo() {
 func (c *LoginController) Get62Data() {
 	wxid := c.GetString("wxid")
 	Data62 := Login.Get62Data(wxid)
-	Result := wxCilent.ResponseResult{
+	Result := wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

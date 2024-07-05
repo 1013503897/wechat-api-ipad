@@ -3,7 +3,7 @@ package User
 import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
@@ -14,10 +14,10 @@ type PrivacySettingsParam struct {
 	Value    int32
 }
 
-func PrivacySettings(Data PrivacySettingsParam) wxCilent.ResponseResult {
+func PrivacySettings(Data PrivacySettingsParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -51,10 +51,10 @@ func PrivacySettings(Data PrivacySettingsParam) wxCilent.ResponseResult {
 		},
 	}
 
-	reqdata, err := proto.Marshal(req)
+	reqData, err := proto.Marshal(req)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("系统异常：%v", err.Error()),
@@ -63,14 +63,14 @@ func PrivacySettings(Data PrivacySettingsParam) wxCilent.ResponseResult {
 	}
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Cgiurl:        "/cgi-bin/micromsg-bin/oplog",
 		Proxy:         D.Proxy,
 		Encryption:    5,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqData,
 			Cgi:              681,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -83,8 +83,8 @@ func PrivacySettings(Data PrivacySettingsParam) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -93,10 +93,10 @@ func PrivacySettings(Data PrivacySettingsParam) wxCilent.ResponseResult {
 
 	//解包
 	GetContactResponse := mm.OplogResponse{}
-	err = proto.Unmarshal(protobufdata, &GetContactResponse)
+	err = proto.Unmarshal(protobufData, &GetContactResponse)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -104,7 +104,7 @@ func PrivacySettings(Data PrivacySettingsParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,
 		Message: "成功",

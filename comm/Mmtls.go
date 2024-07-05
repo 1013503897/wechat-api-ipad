@@ -33,7 +33,7 @@ func MmtlsInitialize(Proxy models.ProxyInfo) (*Mmtls.HttpClientModel, *Mmtls.Mmt
 
 	//初始化Mmtls..
 	httpclient := Mmtls.GenNewHttpClient(nil)
-	MmtlsClient, err := httpclient.InitMmtlsShake(Cilent.MMtls_ip, Cilent.MMtls_host, Proxy, Shakehandpubkey)
+	MmtlsClient, err := httpclient.InitMmtlsShake(Cilent.MmtlsIp, Cilent.MmtlsHost, Proxy, Shakehandpubkey)
 
 	if err != nil {
 		return nil, &Mmtls.MmtlsClient{}, err
@@ -42,7 +42,7 @@ func MmtlsInitialize(Proxy models.ProxyInfo) (*Mmtls.HttpClientModel, *Mmtls.Mmt
 	return httpclient, MmtlsClient, nil
 }
 
-func SendRequest(SENP SendPostData, MmtlsClient *Mmtls.MmtlsClient) (protobufdata, Cookie []byte, errtype int64, err error) {
+func SendRequest(SENP SendPostData, MmtlsClient *Mmtls.MmtlsClient) (protobufData, Cookie []byte, errType int64, err error) {
 
 	/*ttpclient := GenNewHttpClient()
 
@@ -69,11 +69,11 @@ func SendRequest(SENP SendPostData, MmtlsClient *Mmtls.MmtlsClient) (protobufdat
 	}
 
 	if SENP.Ip == "" {
-		SENP.Ip = Cilent.MMtls_ip
+		SENP.Ip = Cilent.MmtlsIp
 	}
 
 	if SENP.Host == "" {
-		SENP.Host = Cilent.MMtls_host
+		SENP.Host = Cilent.MmtlsHost
 	}
 
 	httpclient := Mmtls.GenNewHttpClient(MmtlsClient)
@@ -87,18 +87,18 @@ func SendRequest(SENP SendPostData, MmtlsClient *Mmtls.MmtlsClient) (protobufdat
 	if len(response) > 31 {
 		//数据包解密/解包方式
 		if SENP.Cgiurl == "/cgi-bin/micromsg-bin/newsync" {
-			protobufdata = Cilent.UnpackBusinessPacketWithAesGcm(response, SENP.PackData.Uin, &Cookie, SENP.PackData.Serversessionkey)
+			protobufData = Cilent.UnpackBusinessPacketWithAesGcm(response, SENP.PackData.Uin, &Cookie, SENP.PackData.Serversessionkey)
 		} else {
 			if SENP.Encryption == 12 {
-				protobufdata = Cilent.UnpackBusinessHybridEcdhPacket(response, 0, &Cookie, SENP.TwelveEncData.HybridEcdhPrivkey)
+				protobufData = Cilent.UnpackBusinessHybridEcdhPacket(response, 0, &Cookie, SENP.TwelveEncData.HybridEcdhPrivkey)
 			} else {
-				protobufdata = Cilent.UnpackBusinessPacket(response, SENP.PackData.Sessionkey, SENP.PackData.Uin, &Cookie)
+				protobufData = Cilent.UnpackBusinessPacket(response, SENP.PackData.Sessionkey, SENP.PackData.Uin, &Cookie)
 			}
 		}
 
-		if protobufdata != nil {
+		if protobufData != nil {
 			return
-		}else{
+		} else {
 			return nil, nil, -8, errors.New("数据解密失败")
 		}
 

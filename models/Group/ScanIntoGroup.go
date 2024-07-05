@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-	wxCilent "wechatwebapi/Cilent"
+	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
@@ -17,10 +17,10 @@ type ScanIntoGroupParam struct {
 	Url  string
 }
 
-func ScanIntoGroup(Data ScanIntoGroupParam) wxCilent.ResponseResult {
+func ScanIntoGroup(Data ScanIntoGroupParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginata(Data.Wxid)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("异常：%v", err.Error()),
@@ -34,8 +34,8 @@ func ScanIntoGroup(Data ScanIntoGroupParam) wxCilent.ResponseResult {
 			SessionKey:    D.Sessionkey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
-			ClientVersion: proto.Int32(int32(wxCilent.Wx_client_version)),
-			DeviceType:    wxCilent.DeviceType_byte,
+			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
+			DeviceType:    wxClient.DeviceTypeByte,
 			Scene:         proto.Uint32(0),
 		},
 		OpCode: proto.Uint32(2),
@@ -51,17 +51,17 @@ func ScanIntoGroup(Data ScanIntoGroupParam) wxCilent.ResponseResult {
 	}
 
 	//序列化
-	reqdata, _ := proto.Marshal(req)
+	reqData, _ := proto.Marshal(req)
 
 	//发包
-	protobufdata, _, errtype, err := comm.SendRequest(comm.SendPostData{
+	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
 		Cgiurl:        "/cgi-bin/micromsg-bin/geta8key",
 		Proxy:         D.Proxy,
 		Encryption:    5,
-		TwelveEncData: wxCilent.PackSpecialCgiData{},
-		PackData: wxCilent.PackData{
-			Reqdata:          reqdata,
+		TwelveEncData: wxClient.PackSpecialCgiData{},
+		PackData: wxClient.PackData{
+			Reqdata:          reqData,
 			Cgi:              233,
 			Uin:              D.Uin,
 			Cookie:           D.Cooike,
@@ -74,8 +74,8 @@ func ScanIntoGroup(Data ScanIntoGroupParam) wxCilent.ResponseResult {
 	}, D.MmtlsKey)
 
 	if err != nil {
-		return wxCilent.ResponseResult{
-			Code:    errtype,
+		return wxClient.ResponseResult{
+			Code:    errType,
 			Success: false,
 			Message: err.Error(),
 			Data:    nil,
@@ -84,9 +84,9 @@ func ScanIntoGroup(Data ScanIntoGroupParam) wxCilent.ResponseResult {
 
 	//解包
 	GetA8KeyResp := mm.GetA8KeyResp{}
-	err = proto.Unmarshal(protobufdata, &GetA8KeyResp)
+	err = proto.Unmarshal(protobufData, &GetA8KeyResp)
 	if err != nil {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    -8,
 			Success: false,
 			Message: fmt.Sprintf("反序列化失败：%v", err.Error()),
@@ -97,7 +97,7 @@ func ScanIntoGroup(Data ScanIntoGroupParam) wxCilent.ResponseResult {
 	_, err = ScanIntoGrouppost(*GetA8KeyResp.FullURL)
 
 	if strings.Index(err.Error(), "@chatroom") != -1 {
-		return wxCilent.ResponseResult{
+		return wxClient.ResponseResult{
 			Code:    0,
 			Success: true,
 			Message: "进群成功",
@@ -105,7 +105,7 @@ func ScanIntoGroup(Data ScanIntoGroupParam) wxCilent.ResponseResult {
 		}
 	}
 
-	return wxCilent.ResponseResult{
+	return wxClient.ResponseResult{
 		Code:    -8,
 		Success: false,
 		Message: "进群失败",
