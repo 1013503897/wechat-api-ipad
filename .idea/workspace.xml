@@ -4,95 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9fbd94a-ccaf-4659-b20d-ddeb87a49177" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cilent/HybridEcdh.go" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/HybridEcdh.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cilent/NewSpamData.go" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/NewSpamData.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cilent/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/common.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cilent/encrypt.c" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/encrypt.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cilent/encrypt.h" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/encrypt.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cilent/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/Cilent/util.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mmtls/GenNewHttpClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/Mmtls/GenNewHttpClient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mmtls/Post.go" beforeDir="false" afterPath="$PROJECT_DIR$/Mmtls/Post.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/comm/Mmtls.go" beforeDir="false" afterPath="$PROJECT_DIR$/comm/Mmtls.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/app.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/Favor.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/Favor.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/Login.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/Login.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Favor/GetFavInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Favor/GetFavInfo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Favor/GetFavItem.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Favor/GetFavItem.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Favor/Sync.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Favor/Sync.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Favor/del.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Favor/del.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Finder/UserPrepare.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Finder/UserPrepare.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/Blacklist.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/Blacklist.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/DelFriend.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/DelFriend.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/GetContactDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/GetContactDetail.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/GetContactList.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/GetContactList.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/GetContactStatus.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/GetContactStatus.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/GetMFriend.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/GetMFriend.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/Search.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/Search.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/SendRequest.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/SendRequest.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/SetRemarks.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/SetRemarks.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Friend/Upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Friend/Upload.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/FriendCircle/Comment.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/Comment.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/FriendCircle/GetDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/GetDetail.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/FriendCircle/GetIdDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/GetIdDetail.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/FriendCircle/GetList.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/GetList.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/FriendCircle/MmSnsSync.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/MmSnsSync.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/FriendCircle/Operation.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/Operation.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/FriendCircle/PrivacySettings.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/PrivacySettings.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/FriendCircle/SnsPost.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/SnsPost.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/FriendCircle/SnsUpload.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/FriendCircle/SnsUpload.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/AddChatRoomMember.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/AddChatRoomMember.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/CreateChatRoom.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/CreateChatRoom.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/DelChatRoomMember.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/DelChatRoomMember.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/GetChatRoomInfoDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/GetChatRoomInfoDetail.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/GetChatRoomMemberDetail.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/GetChatRoomMemberDetail.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/InviteChatRoomMember.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/InviteChatRoomMember.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/MoveToContract.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/MoveToContract.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/OperateChatRoomAdmin.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/OperateChatRoomAdmin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/Quit.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/Quit.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/ScanIntoGroup.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/ScanIntoGroup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/SetChatRoomAnnouncement.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/SetChatRoomAnnouncement.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/SetChatRoomName.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/SetChatRoomName.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Group/SetChatRoomRemarks.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Group/SetChatRoomRemarks.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Label/Add.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/Add.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Label/Delete.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/Delete.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Label/GetList.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/GetList.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Label/UpdateList.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/UpdateList.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Label/UpdateName.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Label/UpdateName.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/AwakenLogin.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/AwakenLogin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/CheckSecManualAuth.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/CheckSecManualAuth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/CheckUuid.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/CheckUuid.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/Data62.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/Data62.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/GetQRCode.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/GetQRCode.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/HeartBeat.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/HeartBeat.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/LogOut.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/LogOut.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/Newinit.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/Newinit.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/SecManualAuth.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/SecManualAuth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Login/Secautoauth.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Login/Secautoauth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Msg/MassSend.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/MassSend.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Msg/RevokeMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/RevokeMsg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Msg/SendAppMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendAppMsg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Msg/SendImageMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendImageMsg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Msg/SendNewMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendNewMsg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Msg/SendVideoMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendVideoMsg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Msg/SendVoiceMsg.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/SendVoiceMsg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Msg/sync.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Msg/sync.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Tools/BindMobile.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/BindMobile.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Tools/DelSafetyInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/DelSafetyInfo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Tools/DownloadVoice.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/DownloadVoice.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Tools/GetA8Key.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/GetA8Key.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Tools/GetContact.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/GetContact.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Tools/GetQrcode.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/GetQrcode.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Tools/GetSafetyInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/GetSafetyInfo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Tools/MPGetA8key.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Tools/MPGetA8key.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User/GetContractProfile.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/GetContractProfile.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User/NewSetPasswd.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/NewSetPasswd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User/NewVerifyPasswd.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/NewVerifyPasswd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User/PrivacySettings.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/PrivacySettings.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User/UpdateProfile.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/UpdateProfile.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User/UploadHeadImage.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User/UploadHeadImage.go" afterDir="false" />
+    <list default="true" id="c9fbd94a-ccaf-4659-b20d-ddeb87a49177" name="Default Changelist" comment="update wx_client_version to 850.&#10;removed unused function &amp; format so var name.">
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/wxy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -447,6 +361,21 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update wx_client_version to 850.&#10;removed unused function &amp; format so var name." />
+    <option name="LAST_COMMIT_MESSAGE" value="update wx_client_version to 850.&#10;removed unused function &amp; format so var name." />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

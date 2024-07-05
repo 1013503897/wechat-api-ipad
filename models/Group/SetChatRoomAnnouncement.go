@@ -89,6 +89,6 @@ func SetChatRoomAnnouncement(Data OperateChatRoomInfoParam) wxClient.ResponseRes
 		Code:    0,
 		Success: true,
 		Message: "成功",
-		Data:    Response,
+		Data:    &Response,
 	}
 }

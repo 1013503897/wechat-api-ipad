@@ -140,6 +140,6 @@ func UploadHeadImage(Data UploadHeadImageParam) wxClient.ResponseResult {
 		Code:    0,
 		Success: false,
 		Message: "成功",
-		Data:    Response,
+		Data:    &Response,
 	}
 }

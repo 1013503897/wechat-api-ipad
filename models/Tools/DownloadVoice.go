@@ -112,7 +112,7 @@ func DownloadVoice(Data DownloadVoiceParam) wxClient.ResponseResult {
 			Code:    errType,
 			Success: false,
 			Message: err.Error(),
-			Data:    Response,
+			Data:    &Response,
 		}
 	}
 
@@ -121,7 +121,7 @@ func DownloadVoice(Data DownloadVoiceParam) wxClient.ResponseResult {
 			Code:    -8,
 			Success: false,
 			Message: "异常：语音下载失败",
-			Data:    Response,
+			Data:    &Response,
 		}
 	}
 

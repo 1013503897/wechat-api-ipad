@@ -93,6 +93,6 @@ func DelSafetyInfo(Data DelSafeDeviceParam) wxClient.ResponseResult {
 		Code:    0,
 		Success: true,
 		Message: "成功",
-		Data:    Response,
+		Data:    &Response,
 	}
 }
