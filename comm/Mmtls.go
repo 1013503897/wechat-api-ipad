@@ -31,7 +31,6 @@ func MmtlsInitialize(Proxy models.ProxyInfo) (*Mmtls.HttpClientModel, *Mmtls.Mmt
 		V2pubKey:  V2pubKey,
 	}
 
-	//初始化Mmtls..
 	httpclient := Mmtls.GenNewHttpClient(nil)
 	MmtlsClient, err := httpclient.InitMmtlsShake(Cilent.MmtlsIp, Cilent.MmtlsHost, Proxy, Shakehandpubkey)
 
@@ -59,13 +58,13 @@ func SendRequest(SENP SendPostData, MmtlsClient *Mmtls.MmtlsClient) (protobufDat
 		}
 	}()*/
 
-	var senddata []byte
+	var sendData []byte
 
 	//组包加密方式
 	if SENP.Encryption == 12 {
-		senddata = Cilent.PackSpecialCgi(SENP.TwelveEncData)
+		sendData = Cilent.PackSpecialCgi(SENP.TwelveEncData)
 	} else {
-		senddata = Cilent.Pack(SENP.PackData.Reqdata, SENP.PackData.Cgi, SENP.PackData.Uin, SENP.PackData.Sessionkey, SENP.PackData.Cookie, SENP.PackData.Clientsessionkey, SENP.PackData.Loginecdhkey, SENP.PackData.EncryptType, SENP.PackData.UseCompress)
+		sendData = Cilent.Pack(SENP.PackData.Reqdata, SENP.PackData.Cgi, SENP.PackData.Uin, SENP.PackData.SessionKey, SENP.PackData.Cookie, SENP.PackData.Clientsessionkey, SENP.PackData.Loginecdhkey, SENP.PackData.EncryptType, SENP.PackData.UseCompress)
 	}
 
 	if SENP.Ip == "" {
@@ -78,7 +77,7 @@ func SendRequest(SENP SendPostData, MmtlsClient *Mmtls.MmtlsClient) (protobufDat
 
 	httpclient := Mmtls.GenNewHttpClient(MmtlsClient)
 
-	response, err := httpclient.MMtlsPost(SENP.Ip, SENP.Host, SENP.Cgiurl, senddata, SENP.Proxy)
+	response, err := httpclient.MMtlsPost(SENP.Ip, SENP.Host, SENP.Cgiurl, sendData, SENP.Proxy)
 
 	if err != nil {
 		return nil, nil, -1, err
@@ -92,7 +91,7 @@ func SendRequest(SENP SendPostData, MmtlsClient *Mmtls.MmtlsClient) (protobufDat
 			if SENP.Encryption == 12 {
 				protobufData = Cilent.UnpackBusinessHybridEcdhPacket(response, 0, &Cookie, SENP.TwelveEncData.HybridEcdhPrivkey)
 			} else {
-				protobufData = Cilent.UnpackBusinessPacket(response, SENP.PackData.Sessionkey, SENP.PackData.Uin, &Cookie)
+				protobufData = Cilent.UnpackBusinessPacket(response, SENP.PackData.SessionKey, SENP.PackData.Uin, &Cookie)
 			}
 		}
 
@@ -122,10 +121,4 @@ func RetConst(data []byte) (int64, error) {
 
 func BytesToInt32(buf []byte) int32 {
 	return int32(binary.BigEndian.Uint32(buf))
-}
-
-func Int32ToBytes(i int32) []byte {
-	buf := make([]byte, 8)
-	binary.BigEndian.PutUint32(buf, uint32(i))
-	return buf
 }

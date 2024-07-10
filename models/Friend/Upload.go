@@ -18,7 +18,7 @@ type UploadParam struct {
 }
 
 func UploadMContact(Data UploadParam, Opcode int32) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Data.Wxid)
+	D, err := comm.GetLoginData(Data.Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -47,7 +47,7 @@ func UploadMContact(Data UploadParam, Opcode int32) wxClient.ResponseResult {
 
 	req := &mm.UploadMContactRequest{
 		BaseRequest: &mm.BaseRequest{
-			SessionKey:    D.Sessionkey,
+			SessionKey:    D.SessionKey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
 			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
@@ -85,8 +85,8 @@ func UploadMContact(Data UploadParam, Opcode int32) wxClient.ResponseResult {
 			Reqdata:          reqData,
 			Cgi:              133,
 			Uin:              D.Uin,
-			Cookie:           D.Cooike,
-			Sessionkey:       D.Sessionkey,
+			Cookie:           D.Cookie,
+			SessionKey:       D.SessionKey,
 			EncryptType:      5,
 			Loginecdhkey:     D.Loginecdhkey,
 			Clientsessionkey: D.Clientsessionkey,

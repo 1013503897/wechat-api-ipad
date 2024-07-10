@@ -6,9 +6,9 @@ import (
 )
 
 func Get62Data(Wxid string) string {
-	D, err := comm.GetLoginata(Wxid)
+	D, err := comm.GetLoginData(Wxid)
 	if err != nil {
 		return err.Error()
 	}
-	return wxClient.Get62Data(D.Deviceid_str)
+	return wxClient.Get62Data(D.DeviceidStr)
 }

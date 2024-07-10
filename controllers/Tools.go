@@ -9,15 +9,15 @@ import (
 	"github.com/astaxie/beego"
 )
 
-// 工具
+// ToolsController 工具
 type ToolsController struct {
 	beego.Controller
 }
 
-// @Summary 设置/删除代理IP
-// @Param	body		body 	Tools.SetProxyParam   true	"删除代理ip时直接留空即可"
+// SetProxy @Summary 设置/删除代理IP
+// @Param	body body Tools.SetProxyParam   true			"删除代理ip时直接留空即可"
 // @Success 200
-// @router /setproxy [post]
+// @router /setProxy [post]
 func (c *ToolsController) SetProxy() {
 	var ParamData Tools.SetProxyParam
 	data := c.Ctx.Input.RequestBody
@@ -39,8 +39,8 @@ func (c *ToolsController) SetProxy() {
 	c.ServeJSON()
 }
 
-// @Summary GetA8Key
-// @Param	body		body 	Tools.GetA8KeyParam   true	"OpCode = 2 Scene = 4 CodeType = 19 CodeVersion = 5 为默认参数,如有需求自行修改"
+// GetA8Key @Summary GetA8Key
+// @Param	body body 	Tools.GetA8KeyParam   true	"OpCode = 2 Scene = 4 CodeType = 19 CodeVersion = 5 为默认参数,如有需求自行修改"
 // @Success 200
 // @router /GetA8Key [post]
 func (c *ToolsController) GetA8Key() {
@@ -64,8 +64,8 @@ func (c *ToolsController) GetA8Key() {
 	c.ServeJSON()
 }
 
-// @Summary MPGetA8Key
-// @Param	body		body 	Tools.MPGetA8KeyParam   true	"scene 2=好友或群 3=历史阅读 4=二维码 7=公众号 30=扫码进群 opcode=2"
+// MPGetA8Key @Summary MPGetA8Key
+// @Param	body body 	Tools.MPGetA8KeyParam   true	"scene 2=好友或群 3=历史阅读 4=二维码 7=公众号 30=扫码进群 opcode=2"
 // @Success 200
 // @router /MPGetA8Key [post]
 func (c *ToolsController) MPGetA8Key() {
@@ -89,8 +89,8 @@ func (c *ToolsController) MPGetA8Key() {
 	c.ServeJSON()
 }
 
-// @Summary 获取个人或群二维码
-// @Param	body		body 	Tools.GetQrRequestParam   true	"非获取群聊二维码时Chatroom字段留空 style:二维码样式 0-2"
+// GetQrcode @Summary 获取个人或群二维码
+// @Param	body body Tools.GetQrRequestParam   true	"非获取群聊二维码时Chatroom字段留空 style:二维码样式 0-2"
 // @Success 200
 // @router /GetQrcode [post]
 func (c *ToolsController) GetQrcode() {
@@ -114,7 +114,7 @@ func (c *ToolsController) GetQrcode() {
 	c.ServeJSON()
 }
 
-// @Summary 绑定手机
+// BindMobile @Summary 绑定手机
 // @Param	body		body 	Tools.BindMobileRequestParam   true	"Opcode: 1:获取验证码 2:绑定手机号 3:解绑手机号"
 // @Success 200
 // @router /BindMobile [post]
@@ -139,8 +139,8 @@ func (c *ToolsController) BindMobile() {
 	c.ServeJSON()
 }
 
-// @Summary 语音下载
-// @Param	body		body 	Tools.DownloadVoiceParam    true	"同步消息获取参数"
+// DownloadVoice @Summary 语音下载
+// @Param	body 	body Tools.DownloadVoiceParam    true	"同步消息获取参数"
 // @Success 200
 // @router /DownloadVoice [post]
 func (c *ToolsController) DownloadVoice() {
@@ -164,8 +164,8 @@ func (c *ToolsController) DownloadVoice() {
 	c.ServeJSON()
 }
 
-// @Summary 获取安全设备
-// @Param	wxid		query 	string    true	"输入登录成功后的wxid"
+// GetSafetyInfo @Summary 获取安全设备
+// @Param	wxid	body 	query 	string    true	"输入登录成功后的wxid"
 // @Success 200
 // @router /GetSafetyInfo [post]
 func (c *ToolsController) GetSafetyInfo() {
@@ -175,12 +175,37 @@ func (c *ToolsController) GetSafetyInfo() {
 	c.ServeJSON()
 }
 
-// @Summary 删除安全设备
-// @Param	body		body 	Tools.DelSafeDeviceParam    true	"输入登录成功后的wxid"
+// DelSafetyInfo @Summary 删除安全设备
+// @Param	body 	body Tools.DelSafeDeviceParam    true	"输入登录成功后的wxid"
 // @Success 200
 // @router /DelSafetyInfo [post]
 func (c *ToolsController) DelSafetyInfo() {
 	var ParamData Tools.DelSafeDeviceParam
+	data := c.Ctx.Input.RequestBody
+	err := json.Unmarshal(data, &ParamData)
+	if err != nil {
+		Result := wxClient.ResponseResult{
+			Code:    -8,
+			Success: false,
+			Message: fmt.Sprintf("系统异常：%v", err.Error()),
+			Data:    nil,
+		}
+		c.Data["json"] = &Result
+		c.ServeJSON()
+		return
+	}
+
+	WXDATA := Tools.DelSafetyInfo(ParamData)
+	c.Data["json"] = &WXDATA
+	c.ServeJSON()
+}
+
+// GetBillList @Summary 获取账单
+// @Param	body body 	Tools.DelSafeDeviceParam    true	"输入登录成功后的wxid"
+// @Success 200
+// @router /GetBillList [post]
+func (c *ToolsController) GetBillList() {
+	var ParamData Tools.GetBillListParam
 	data := c.Ctx.Input.RequestBody
 	err := json.Unmarshal(data, &ParamData)
 	if err != nil {

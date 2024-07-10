@@ -10,7 +10,7 @@ import (
 )
 
 func CheckUuid(Uuid string) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Uuid)
+	D, err := comm.GetLoginData(Uuid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -24,7 +24,7 @@ func CheckUuid(Uuid string) wxClient.ResponseResult {
 
 	req := &mm.CheckLoginQRCodeRequest{
 		BaseRequest: &mm.BaseRequest{
-			SessionKey:    D.Aeskey,
+			SessionKey:    D.AesKey,
 			Uin:           proto.Uint32(0),
 			DeviceId:      D.Deviceid_byte,
 			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
@@ -32,8 +32,8 @@ func CheckUuid(Uuid string) wxClient.ResponseResult {
 			Scene:         proto.Uint32(0),
 		},
 		RandomEncryKey: &mm.SKBuiltinBufferT{
-			ILen:   proto.Uint32(uint32(len(D.Aeskey))),
-			Buffer: D.Aeskey,
+			ILen:   proto.Uint32(uint32(len(D.AesKey))),
+			Buffer: D.AesKey,
 		},
 		Uuid:      &D.Uuid,
 		TimeStamp: &timenow,
@@ -121,7 +121,7 @@ func CheckUuid(Uuid string) wxClient.ResponseResult {
 			if notifydataRsp.GetStatus() == 2 {
 				D.Wxid = notifydataRsp.GetUserName()
 				D.Pwd = notifydataRsp.GetPwd()
-				D.Cooike = cookie
+				D.Cookie = cookie
 				return CheckSecManualAuth(*D, wxClient.MmtlsIp, wxClient.MmtlsHost)
 			}
 

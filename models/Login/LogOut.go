@@ -9,7 +9,7 @@ import (
 )
 
 func LogOut(Wxid string) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Wxid)
+	D, err := comm.GetLoginData(Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -21,7 +21,7 @@ func LogOut(Wxid string) wxClient.ResponseResult {
 
 	req := &mm.LogOutRequest{
 		BaseRequest: &mm.BaseRequest{
-			SessionKey:    D.Sessionkey,
+			SessionKey:    D.SessionKey,
 			Uin:           proto.Uint32(0),
 			DeviceId:      D.Deviceid_byte,
 			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
@@ -54,8 +54,8 @@ func LogOut(Wxid string) wxClient.ResponseResult {
 			Reqdata:          reqData,
 			Cgi:              282,
 			Uin:              D.Uin,
-			Cookie:           D.Cooike,
-			Sessionkey:       D.Sessionkey,
+			Cookie:           D.Cookie,
+			SessionKey:       D.SessionKey,
 			EncryptType:      5,
 			Loginecdhkey:     D.Loginecdhkey,
 			Clientsessionkey: D.Clientsessionkey,

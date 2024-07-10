@@ -7,7 +7,7 @@ import (
 )
 
 func CacheInfo(Wxid string) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Wxid)
+	D, err := comm.GetLoginData(Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,

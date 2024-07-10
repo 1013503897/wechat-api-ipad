@@ -1,15 +1,14 @@
-package Group
+package Tools
 
 import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	"strings"
 	wxClient "wechatwebapi/Cilent"
 	"wechatwebapi/Cilent/mm"
 	"wechatwebapi/comm"
 )
 
-func InviteChatRoomMember(Data AddChatRoomParam) wxClient.ResponseResult {
+func GetBillList(Data GetBillListParam) wxClient.ResponseResult {
 	D, err := comm.GetLoginData(Data.Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
@@ -20,19 +19,7 @@ func InviteChatRoomMember(Data AddChatRoomParam) wxClient.ResponseResult {
 		}
 	}
 
-	ToWxids := strings.Split(Data.ToWxids, ",")
-
-	var MemberList []*mm.MemberReq
-
-	for _, v := range ToWxids {
-		MemberList = append(MemberList, &mm.MemberReq{
-			MemberName: &mm.SKBuiltinStringT{
-				String_: proto.String(v),
-			},
-		})
-	}
-
-	req := &mm.AddChatRoomMemberRequest{
+	req := &mm.GetA8KeyReq{
 		BaseRequest: &mm.BaseRequest{
 			SessionKey:    D.SessionKey,
 			Uin:           proto.Uint32(D.Uin),
@@ -41,12 +28,18 @@ func InviteChatRoomMember(Data AddChatRoomParam) wxClient.ResponseResult {
 			DeviceType:    wxClient.DeviceTypeByte,
 			Scene:         proto.Uint32(0),
 		},
-		MemberCount: proto.Uint32(uint32(len(MemberList))),
-		MemberList:  MemberList,
-		ChatRoomName: &mm.SKBuiltinStringT{
-			String_: proto.String(Data.QID),
+		OpCode: proto.Uint32(2),
+		ReqUrl: &mm.SKBuiltinStringT{
+			String_: proto.String("https://wx.tenpay.com/userroll/readtemplate?t=userroll"),
 		},
-		LastRoomMsgTimeStamp: proto.Uint32(0),
+		Scene:       proto.Uint32(0),
+		BundleID:    proto.String(""),
+		FontScale:   proto.Uint32(100),
+		NetType:     proto.String("WIFI"),
+		CodeType:    proto.Uint32(0),
+		CodeVersion: proto.Uint32(0),
+		OuterUrl:    proto.String(""),
+		SubScene:    proto.Uint32(1),
 	}
 
 	reqData, err := proto.Marshal(req)
@@ -63,20 +56,20 @@ func InviteChatRoomMember(Data AddChatRoomParam) wxClient.ResponseResult {
 	//发包
 	protobufData, _, errType, err := comm.SendRequest(comm.SendPostData{
 		Ip:            D.Mmtlsip,
-		Cgiurl:        "/cgi-bin/micromsg-bin/invitechatroommember",
+		Cgiurl:        "/cgi-bin/micromsg-bin/geta8key",
 		Proxy:         D.Proxy,
 		Encryption:    5,
 		TwelveEncData: wxClient.PackSpecialCgiData{},
 		PackData: wxClient.PackData{
 			Reqdata:          reqData,
-			Cgi:              610,
+			Cgi:              233,
 			Uin:              D.Uin,
 			Cookie:           D.Cookie,
 			SessionKey:       D.SessionKey,
 			EncryptType:      5,
 			Loginecdhkey:     D.Loginecdhkey,
 			Clientsessionkey: D.Clientsessionkey,
-			UseCompress:      true,
+			UseCompress:      false,
 		},
 	}, D.MmtlsKey)
 
@@ -90,7 +83,7 @@ func InviteChatRoomMember(Data AddChatRoomParam) wxClient.ResponseResult {
 	}
 
 	//解包
-	Response := mm.AddChatRoomMemberResponse{}
+	Response := mm.GetA8KeyResp{}
 	err = proto.Unmarshal(protobufData, &Response)
 	if err != nil {
 		return wxClient.ResponseResult{
@@ -101,6 +94,7 @@ func InviteChatRoomMember(Data AddChatRoomParam) wxClient.ResponseResult {
 		}
 	}
 
+	// todo: GetBillList
 	return wxClient.ResponseResult{
 		Code:    0,
 		Success: true,

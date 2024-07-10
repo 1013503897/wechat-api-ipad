@@ -18,7 +18,7 @@ type Messagearameter struct {
 }
 
 func Messages(Data Messagearameter) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Data.Wxid)
+	D, err := comm.GetLoginData(Data.Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -53,7 +53,7 @@ func Messages(Data Messagearameter) wxClient.ResponseResult {
 	ccData := &mm.CryptoData{
 		Version:     []byte("00000003"),
 		Type:        proto.Uint32(1),
-		EncryptData: wxClient.GetNewSpamData(D.Deviceid_str, D.DeviceName),
+		EncryptData: wxClient.GetNewSpamData(D.DeviceidStr, D.DeviceName),
 		Timestamp:   proto.Uint32(uint32(time.Now().Unix())),
 		Unknown5:    proto.Uint32(5),
 		Unknown6:    proto.Uint32(0),
@@ -69,7 +69,7 @@ func Messages(Data Messagearameter) wxClient.ResponseResult {
 
 	req := &mm.SnsPostRequest{
 		BaseRequest: &mm.BaseRequest{
-			SessionKey:    D.Sessionkey,
+			SessionKey:    D.SessionKey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
 			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
@@ -109,8 +109,8 @@ func Messages(Data Messagearameter) wxClient.ResponseResult {
 			Reqdata:          reqData,
 			Cgi:              209,
 			Uin:              D.Uin,
-			Cookie:           D.Cooike,
-			Sessionkey:       D.Sessionkey,
+			Cookie:           D.Cookie,
+			SessionKey:       D.SessionKey,
 			EncryptType:      5,
 			Loginecdhkey:     D.Loginecdhkey,
 			Clientsessionkey: D.Clientsessionkey,

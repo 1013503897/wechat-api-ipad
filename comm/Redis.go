@@ -18,9 +18,9 @@ type LoginData struct {
 	Wxid                       string
 	Pwd                        string
 	Uuid                       string
-	Aeskey                     []byte
+	AesKey                     []byte
 	NotifyKey                  []byte
-	Deviceid_str               string
+	DeviceidStr                string
 	Deviceid_byte              []byte
 	DeviceType                 string
 	ClientVersion              int
@@ -30,8 +30,8 @@ type LoginData struct {
 	Mobile                     string
 	Mmtlsip                    string
 	MmtlsHost                  string
-	Sessionkey                 []byte
-	Sessionkey_2               []byte
+	SessionKey                 []byte
+	SessionKey_2               []byte
 	Autoauthkey                []byte
 	Autoauthkeylen             int32
 	Clientsessionkey           []byte
@@ -40,7 +40,7 @@ type LoginData struct {
 	HybridEcdhPubkey           []byte
 	HybridEcdhInitServerPubKey []byte
 	Loginecdhkey               []byte
-	Cooike                     []byte
+	Cookie                     []byte
 	AuthTicket                 string
 	Proxy                      models.ProxyInfo
 	MmtlsKey                   *Mmtls.MmtlsClient
@@ -49,8 +49,8 @@ type LoginData struct {
 func RedisInitialize() *redis.Client {
 	RedisClient = redis.NewClient(&redis.Options{
 		Addr:     "127.0.0.1:6379", // redis地址
-		Password: "",           // redis密码，没有则留空
-		DB:       0,            // 默认数据库，默认是0
+		Password: "",               // redis密码，没有则留空
+		DB:       0,                // 默认数据库，默认是0
 	})
 
 	return RedisClient
@@ -69,8 +69,7 @@ func CreateLoginData(data LoginData, key string, Expiration int64) error {
 	}
 
 	JsonData, _ := json.Marshal(&data)
-	//ctx, _ := context.WithTimeout(context.TODO(), time.Second)
-	err := RedisClient.Set( key, string(JsonData), ExpTime).Err()
+	err := RedisClient.Set(key, string(JsonData), ExpTime).Err()
 	if err != nil {
 		return err
 	}
@@ -78,7 +77,6 @@ func CreateLoginData(data LoginData, key string, Expiration int64) error {
 }
 
 func GetKeyJsonData(Key string) (ret string, err error) {
-	//ctx, _ := context.WithTimeout(context.TODO(), time.Second)
 	val, _ := RedisClient.Get(Key).Result()
 	if val == "" {
 		return ret, errors.New(fmt.Sprintf("[Key:%v]数据不存在", Key))
@@ -86,7 +84,7 @@ func GetKeyJsonData(Key string) (ret string, err error) {
 	return val, nil
 }
 
-func GetLoginata(key string) (*LoginData, error) {
+func GetLoginData(key string) (*LoginData, error) {
 	P, err := GetKeyJsonData(key)
 	if err != nil {
 		return &LoginData{}, err

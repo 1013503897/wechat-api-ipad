@@ -107,7 +107,7 @@ func (c *FriendController) DeleteFromContact() {
 }
 
 // @Summary 获取通讯录好友
-// @Param	wxid		query 	string	true		""
+// @Param	wxid		query 	string	true		"微信ID"
 // @Failure 200
 // @router /GetMFriend [post]
 func (c *FriendController) GetMFriend() {
@@ -187,7 +187,7 @@ func (c *FriendController) GetContactStatus() {
 }
 
 // @Summary 设置好友备注
-// @Param	body			body	Friend.SetRemarksParam	 true		""
+// @Param	body			body	Friend.SetRemarksParam	 true		"设置好友备注"
 // @Failure 200
 // @router /SetContactRemarks [post]
 func (c *FriendController) SetContactRemarks() {

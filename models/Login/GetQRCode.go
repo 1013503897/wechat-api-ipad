@@ -118,15 +118,15 @@ func GetQRCODE(DeviceID, DeviceName string, Proxy models.ProxyInfo) wxClient.Res
 		//保存redis
 		err := comm.CreateLoginData(comm.LoginData{
 			Uuid:                       uuid,
-			Aeskey:                     aesKey,
+			AesKey:                     aesKey,
 			NotifyKey:                  getLoginQRRes.GetNotifyKey().GetBuffer(),
-			Deviceid_str:               deviceId,
+			DeviceidStr:                deviceId,
 			Deviceid_byte:              deviceIdByte,
 			DeviceName:                 DeviceName,
 			HybridEcdhPrivkey:          HybridEcdhPrivKey,
 			HybridEcdhPubkey:           HybridEcdhPubKey,
 			HybridEcdhInitServerPubKey: HybridEcdhInitServerPubKey,
-			Cooike:                     cookie,
+			Cookie:                     cookie,
 			Proxy:                      Proxy,
 			MmtlsKey:                   MmtlsClient,
 		}, "", 300)

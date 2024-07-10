@@ -11,7 +11,7 @@ import (
 )
 
 func AwakenLogin(Wxid string) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Wxid)
+	D, err := comm.GetLoginData(Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -37,7 +37,7 @@ func AwakenLogin(Wxid string) wxClient.ResponseResult {
 
 	req := &mm.PushLoginURLRequest{
 		BaseRequest: &mm.BaseRequest{
-			SessionKey:    D.Sessionkey,
+			SessionKey:    D.SessionKey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
 			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
@@ -53,8 +53,8 @@ func AwakenLogin(Wxid string) wxClient.ResponseResult {
 		Devicename: proto.String(D.DeviceName),
 		Opcode:     proto.Int32(3),
 		RandomEncryKey: &mm.SKBuiltinBufferT{
-			ILen:   proto.Uint32(uint32(len(D.Sessionkey))),
-			Buffer: D.Sessionkey,
+			ILen:   proto.Uint32(uint32(len(D.SessionKey))),
+			Buffer: D.SessionKey,
 		},
 		Username: proto.String(D.Wxid),
 	}
@@ -83,7 +83,7 @@ func AwakenLogin(Wxid string) wxClient.ResponseResult {
 			Encrypttype:                12,
 			Extenddata:                 []byte{},
 			Uin:                        D.Uin,
-			Cookies:                    D.Cooike,
+			Cookies:                    D.Cookie,
 			ClientVersion:              wxClient.WxClientVersion,
 			HybridEcdhPrivkey:          D.HybridEcdhPrivkey,
 			HybridEcdhPubkey:           D.HybridEcdhPubkey,
@@ -115,15 +115,15 @@ func AwakenLogin(Wxid string) wxClient.ResponseResult {
 	//保存redis
 	err = comm.CreateLoginData(comm.LoginData{
 		Uuid:                       PushLoginURLResponse.GetUuid(),
-		Aeskey:                     D.Sessionkey,
+		AesKey:                     D.SessionKey,
 		NotifyKey:                  PushLoginURLResponse.GetNotifyKey().GetBuffer(),
-		Deviceid_str:               D.Deviceid_str,
+		DeviceidStr:                D.DeviceidStr,
 		Deviceid_byte:              D.Deviceid_byte,
 		DeviceName:                 D.DeviceName,
 		HybridEcdhPrivkey:          D.HybridEcdhPrivkey,
 		HybridEcdhPubkey:           D.HybridEcdhPubkey,
 		HybridEcdhInitServerPubKey: D.HybridEcdhInitServerPubKey,
-		Cooike:                     cookie,
+		Cookie:                     cookie,
 		MmtlsKey:                   MmtlsClient,
 	}, "", 300)
 

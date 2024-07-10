@@ -13,7 +13,7 @@ type SetProxyParam struct {
 }
 
 func SetProxy(Data SetProxyParam) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Data.Wxid)
+	D, err := comm.GetLoginData(Data.Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,

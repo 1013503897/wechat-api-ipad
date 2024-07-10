@@ -16,7 +16,7 @@ type GetDetailparameter struct {
 }
 
 func GetDetail(Data GetDetailparameter) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Data.Wxid)
+	D, err := comm.GetLoginData(Data.Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -28,7 +28,7 @@ func GetDetail(Data GetDetailparameter) wxClient.ResponseResult {
 
 	req := &mm.SnsUserPageRequest{
 		BaseRequest: &mm.BaseRequest{
-			SessionKey:    D.Sessionkey,
+			SessionKey:    D.SessionKey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
 			ClientVersion: proto.Int32(369558056),
@@ -65,8 +65,8 @@ func GetDetail(Data GetDetailparameter) wxClient.ResponseResult {
 			Reqdata:          reqData,
 			Cgi:              212,
 			Uin:              D.Uin,
-			Cookie:           D.Cooike,
-			Sessionkey:       D.Sessionkey,
+			Cookie:           D.Cookie,
+			SessionKey:       D.SessionKey,
 			EncryptType:      5,
 			Loginecdhkey:     D.Loginecdhkey,
 			Clientsessionkey: D.Clientsessionkey,

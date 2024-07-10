@@ -14,7 +14,7 @@ type LabelController struct {
 }
 
 // @Summary 获取标签列表
-// @Param	wxid			query 	string	true		""
+// @Param	wxid			query 	string	true		"微信id"
 // @Failure 200
 // @router /GetContactLabelList [post]
 func (c *LabelController) GetContactLabelList() {
@@ -25,7 +25,7 @@ func (c *LabelController) GetContactLabelList() {
 }
 
 // @Summary 添加标签
-// @Param	body			body	Label.AddParam	true		""
+// @Param	body			body	Label.AddParam	true		"添加标签"
 // @Failure 200
 // @router /AddContactLabel [post]
 func (c *LabelController) AddContactLabel() {
@@ -71,7 +71,7 @@ func (c *LabelController) UpdateContactLabelList() {
 }
 
 // @Summary 修改标签
-// @Param	body			body	Label.UpdateNameParam	true		""
+// @Param	body			body	Label.UpdateNameParam	true		"修改标签"
 // @Failure 200
 // @router /UpdateContactLabel [post]
 func (c *LabelController) UpdateContactLabel() {
@@ -94,7 +94,7 @@ func (c *LabelController) UpdateContactLabel() {
 }
 
 // @Summary 删除标签
-// @Param	body			body	Label.DeleteParam	true		""
+// @Param	body			body	Label.DeleteParam	true		"删除标签"
 // @Failure 200
 // @router /DeleteContactLabel [post]
 func (c *LabelController) DeleteContactLabel() {

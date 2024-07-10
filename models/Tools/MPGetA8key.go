@@ -19,7 +19,7 @@ type MPGetA8KeyParam struct {
 }
 
 func MPGetA8Key(Data MPGetA8KeyParam) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Data.Wxid)
+	D, err := comm.GetLoginData(Data.Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -31,7 +31,7 @@ func MPGetA8Key(Data MPGetA8KeyParam) wxClient.ResponseResult {
 
 	req := &mm.GetA8KeyReq{
 		BaseRequest: &mm.BaseRequest{
-			SessionKey:    D.Sessionkey,
+			SessionKey:    D.SessionKey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
 			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
@@ -74,8 +74,8 @@ func MPGetA8Key(Data MPGetA8KeyParam) wxClient.ResponseResult {
 			Reqdata:          reqData,
 			Cgi:              238,
 			Uin:              D.Uin,
-			Cookie:           D.Cooike,
-			Sessionkey:       D.Sessionkey,
+			Cookie:           D.Cookie,
+			SessionKey:       D.SessionKey,
 			EncryptType:      5,
 			Loginecdhkey:     D.Loginecdhkey,
 			Clientsessionkey: D.Clientsessionkey,

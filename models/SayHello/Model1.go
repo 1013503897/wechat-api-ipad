@@ -15,7 +15,7 @@ type Model1Param struct {
 
 // 扫码打招呼
 func Model1(Data Model1Param) wxClient.ResponseResult {
-	_, err := comm.GetLoginata(Data.Wxid)
+	_, err := comm.GetLoginData(Data.Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,

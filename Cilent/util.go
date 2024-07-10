@@ -34,7 +34,7 @@ type PackData struct {
 	Uin              uint32
 	Cookie           []byte
 	ClientVersion    int
-	Sessionkey       []byte
+	SessionKey       []byte
 	EncryptType      uint8
 	Loginecdhkey     []byte
 	Clientsessionkey []byte

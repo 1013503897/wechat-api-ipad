@@ -33,7 +33,7 @@ type SyncResponse struct {
 }
 
 func Sync(Data SyncParam) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Data.Wxid)
+	D, err := comm.GetLoginData(Data.Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -87,8 +87,8 @@ func Sync(Data SyncParam) wxClient.ResponseResult {
 			Reqdata:          reqData,
 			Cgi:              138,
 			Uin:              D.Uin,
-			Cookie:           D.Cooike,
-			Sessionkey:       D.Sessionkey,
+			Cookie:           D.Cookie,
+			SessionKey:       D.SessionKey,
 			Loginecdhkey:     D.Loginecdhkey,
 			Clientsessionkey: D.Clientsessionkey,
 			Serversessionkey: D.Serversessionkey,

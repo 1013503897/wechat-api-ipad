@@ -57,7 +57,7 @@ func Data62Login(D ManualAuthReq) wxClient.ResponseResult {
 	LoginData := comm.LoginData{
 		Wxid:                       D.UserName,
 		Pwd:                        device.MD5ToLower(D.Password),
-		Deviceid_str:               devicelId,
+		DeviceidStr:                devicelId,
 		Deviceid_byte:              devicelIdByte,
 		DeviceName:                 "iPad7,5",
 		Mmtlsip:                    wxClient.MmtlsIp,

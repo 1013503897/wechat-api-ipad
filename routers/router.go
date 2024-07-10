@@ -1,5 +1,5 @@
-// @APIVersion 7.0.12
-// @Title Wechat
+// Package routers @APIVersion 7.0.12
+// @Title WeChat
 // @Description 仅供测试
 package routers
 
@@ -7,6 +7,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
 	"wechatwebapi/controllers"
+	_ "wechatwebapi/swagger"
 )
 
 func init() {
@@ -18,7 +19,7 @@ func init() {
 		AllowCredentials: true,
 	}))
 
-	ns := beego.NewNamespace("/712",
+	ns := beego.NewNamespace("/850",
 		beego.NSNamespace("/Api/Login",
 			beego.NSInclude(
 				&controllers.LoginController{},

@@ -71,7 +71,7 @@ func (c *UserController) UpdateProfile() {
 }
 
 // @Summary 修改头像
-// @Param	body	body	User.UploadHeadImageParam	 true		""
+// @Param	body	body	User.UploadHeadImageParam	 true		"修改头像"
 // @Success 200
 // @router /UploadHeadImage [post]
 func (c *UserController) UploadHeadImage() {

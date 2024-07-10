@@ -35,7 +35,7 @@ var deviceType_str = "android-27"
 //		Password:      Data.Password,
 //		Deviceid:      []byte(Data.DeviceData),
 //		Deviceid_str:  Data.DeviceData,
-//		Sessionkey:    []byte{},
+//		SessionKey:    []byte{},
 //		Clientversion: 0x27000d34,
 //		Devicetype:    "android-27",
 //		Devicetoken:   "",
@@ -158,7 +158,7 @@ var deviceType_str = "android-27"
 //
 //	if loginRes.GetBaseResponse().GetRet() == 0 {
 //		var LoginData ioscomm.LoginData
-//		LoginData.Cooike = ph1.Cookies
+//		LoginData.Cookie = ph1.Cookies
 //		LoginData.Mmtlsip = IP
 //		LoginData.MmtlsHost = domain
 //		LoginData.Deviceid_str = Data.DeviceData

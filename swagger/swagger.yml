@@ -1,9 +1,9 @@
 swagger: "2.0"
 info:
-  title: Wechat
-  description: 仅供测试
-  version: 7.0.12
-basePath: /712
+  title: WeChat
+  description: |
+    仅供测试
+basePath: /850
 paths:
   /Api/Chatroom/AddChatRoomMember:
     post:
@@ -219,7 +219,6 @@ paths:
     post:
       tags:
       - Api/Common
-      summary: 绑定手机
       parameters:
       - in: body
         name: body
@@ -234,7 +233,6 @@ paths:
     post:
       tags:
       - Api/Common
-      summary: 删除安全设备
       parameters:
       - in: body
         name: body
@@ -249,7 +247,6 @@ paths:
     post:
       tags:
       - Api/Common
-      summary: 语音下载
       parameters:
       - in: body
         name: body
@@ -264,7 +261,6 @@ paths:
     post:
       tags:
       - Api/Common
-      summary: GetA8Key
       parameters:
       - in: body
         name: body
@@ -275,11 +271,24 @@ paths:
       responses:
         "200":
           description: ""
+  /Api/Common/GetBillList:
+    post:
+      tags:
+      - Api/Common
+      parameters:
+      - in: body
+        name: body
+        description: 输入登录成功后的wxid
+        required: true
+        schema:
+          $ref: '#/definitions/Tools.DelSafeDeviceParam'
+      responses:
+        "200":
+          description: ""
   /Api/Common/GetQrcode:
     post:
       tags:
       - Api/Common
-      summary: 获取个人或群二维码
       parameters:
       - in: body
         name: body
@@ -294,13 +303,14 @@ paths:
     post:
       tags:
       - Api/Common
-      summary: 获取安全设备
       parameters:
-      - in: query
+      - in: body
         name: wxid
         description: 输入登录成功后的wxid
         required: true
-        type: string
+        schema:
+          $ref: '#/definitions/query'
+        default: string
       responses:
         "200":
           description: ""
@@ -308,7 +318,6 @@ paths:
     post:
       tags:
       - Api/Common
-      summary: MPGetA8Key
       parameters:
       - in: body
         name: body
@@ -319,11 +328,10 @@ paths:
       responses:
         "200":
           description: ""
-  /Api/Common/setproxy:
+  /Api/Common/setProxy:
     post:
       tags:
       - Api/Common
-      summary: 设置/删除代理IP
       parameters:
       - in: body
         name: body
@@ -476,7 +484,8 @@ paths:
       parameters:
       - in: query
         name: wxid
-        description: "true"
+        description: 微信ID
+        required: true
         type: string
       responses:
         "200":
@@ -519,7 +528,8 @@ paths:
       parameters:
       - in: body
         name: body
-        description: "true"
+        description: 设置好友备注
+        required: true
         schema:
           $ref: '#/definitions/Friend.SetRemarksParam'
       responses:
@@ -563,7 +573,8 @@ paths:
       parameters:
       - in: body
         name: body
-        description: "true"
+        description: 添加标签
+        required: true
         schema:
           $ref: '#/definitions/Label.AddParam'
       responses:
@@ -577,7 +588,8 @@ paths:
       parameters:
       - in: body
         name: body
-        description: "true"
+        description: 删除标签
+        required: true
         schema:
           $ref: '#/definitions/Label.DeleteParam'
       responses:
@@ -591,7 +603,8 @@ paths:
       parameters:
       - in: query
         name: wxid
-        description: "true"
+        description: 微信id
+        required: true
         type: string
       responses:
         "200":
@@ -604,7 +617,8 @@ paths:
       parameters:
       - in: body
         name: body
-        description: "true"
+        description: 修改标签
+        required: true
         schema:
           $ref: '#/definitions/Label.UpdateNameParam'
       responses:
@@ -1114,7 +1128,8 @@ paths:
       parameters:
       - in: body
         name: body
-        description: "true"
+        description: 修改头像
+        required: true
         schema:
           $ref: '#/definitions/User.UploadHeadImageParam'
       responses:
@@ -1852,10 +1867,13 @@ definitions:
         type: string
       ProxyUser:
         type: string
+  query:
+    title: query
+    type: object
 tags:
 - name: Api/Login
   description: |
-    登陆
+    LoginController 登陆
 - name: Api/Message
   description: |
     消息
@@ -1879,4 +1897,4 @@ tags:
     微信号管理
 - name: Api/Common
   description: |
-    工具
+    ToolsController 工具

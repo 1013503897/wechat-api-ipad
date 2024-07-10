@@ -13,7 +13,7 @@ import (
 )
 
 func Secautoauth(Wxid string) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Wxid)
+	D, err := comm.GetLoginData(Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -38,15 +38,15 @@ func Secautoauth(Wxid string) wxClient.ResponseResult {
 	Wx_login_prikey, Wx_login_pubkey := wxClient.EcdhGen713Key()
 
 	//基础设备信息
-	Imei := device.Imei(D.Deviceid_str)
-	SoftType := device.SoftType(D.Deviceid_str)
-	ClientSeqId := wxClient.GetClientSeqId(D.Deviceid_str)
+	Imei := device.Imei(D.DeviceidStr)
+	SoftType := device.SoftType(D.DeviceidStr)
+	ClientSeqId := wxClient.GetClientSeqId(D.DeviceidStr)
 
 	//24算法
 	ccData := &mm.CryptoData{
 		Version:     []byte("00000003"),
 		Type:        proto.Uint32(1),
-		EncryptData: wxClient.GetNewSpamData(D.Deviceid_str, D.DeviceName),
+		EncryptData: wxClient.GetNewSpamData(D.DeviceidStr, D.DeviceName),
 		Timestamp:   proto.Uint32(uint32(time.Now().Unix())),
 		Unknown5:    proto.Uint32(5),
 		Unknown6:    proto.Uint32(0),
@@ -87,7 +87,7 @@ func Secautoauth(Wxid string) wxClient.ResponseResult {
 		},
 		AesReqData: &mm.AutoAuthAesReqData{
 			BaseRequest: &mm.BaseRequest{
-				SessionKey:    D.Sessionkey,
+				SessionKey:    D.SessionKey,
 				Uin:           proto.Uint32(D.Uin),
 				DeviceId:      D.Deviceid_byte,
 				ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
@@ -129,7 +129,7 @@ func Secautoauth(Wxid string) wxClient.ResponseResult {
 			Encrypttype:                12,
 			Extenddata:                 []byte{},
 			Uin:                        D.Uin,
-			Cookies:                    D.Cooike,
+			Cookies:                    D.Cookie,
 			ClientVersion:              wxClient.WxClientVersion,
 			HybridEcdhPrivkey:          D.HybridEcdhPrivkey,
 			HybridEcdhPubkey:           D.HybridEcdhPubkey,
@@ -175,8 +175,8 @@ func Secautoauth(Wxid string) wxClient.ResponseResult {
 	m.Write(Wx_loginecdhkey[:Wx_loginecdhkeylen])
 	D.Loginecdhkey = Wx_loginecdhkey
 	ecdhdecrptkey := m.Sum(nil)
-	D.Cooike = cookie
-	D.Sessionkey = wxClient.AesDecrypt(loginRes.GetAuthSectResp().GetSessionKey().GetBuffer(), ecdhdecrptkey)
+	D.Cookie = cookie
+	D.SessionKey = wxClient.AesDecrypt(loginRes.GetAuthSectResp().GetSessionKey().GetBuffer(), ecdhdecrptkey)
 	D.Autoauthkey = loginRes.GetAuthSectResp().GetAutoAuthKey().GetBuffer()
 	D.Autoauthkeylen = int32(loginRes.GetAuthSectResp().GetAutoAuthKey().GetILen())
 	D.Serversessionkey = loginRes.GetAuthSectResp().GetServerSessionKey().GetBuffer()

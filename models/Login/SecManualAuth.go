@@ -40,7 +40,7 @@ func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuth
 	ccData := &mm.CryptoData{
 		Version:     []byte("00000003"),
 		Type:        proto.Uint32(1),
-		EncryptData: wxClient.GetNewSpamData(Data.Deviceid_str, "ipad7,5"),
+		EncryptData: wxClient.GetNewSpamData(Data.DeviceidStr, "ipad7,5"),
 		Timestamp:   proto.Uint32(uint32(time.Now().Unix())),
 		Unknown5:    proto.Uint32(5),
 		Unknown6:    proto.Uint32(0),
@@ -54,10 +54,10 @@ func SecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) (mm.UnifyAuth
 	}
 
 	WCExtInfoseq, _ := proto.Marshal(WCExtInfo)
-	ClientSeqId := wxClient.GetClientSeqId(Data.Deviceid_str)
-	Imei := device.Imei(Data.Deviceid_str)
-	SoftType := device.SoftType(Data.Deviceid_str)
-	uuid1, _ := device.Uuid(Data.Deviceid_str)
+	ClientSeqId := wxClient.GetClientSeqId(Data.DeviceidStr)
+	Imei := device.Imei(Data.DeviceidStr)
+	SoftType := device.SoftType(Data.DeviceidStr)
+	uuid1, _ := device.Uuid(Data.DeviceidStr)
 
 	deviceRequest := &mm.ManualAuthAesReqData{
 		BaseRequest: &mm.BaseRequest{

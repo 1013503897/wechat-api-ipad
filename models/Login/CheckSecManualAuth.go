@@ -29,9 +29,9 @@ func CheckSecManualAuth(Data comm.LoginData, mmtlsip, mmtlshost string) wxClient
 		Data.Alais = loginRes.GetAcctSectResp().GetAlias()
 		Data.Mobile = loginRes.GetAcctSectResp().GetBindMobile()
 		Data.NickName = loginRes.GetAcctSectResp().GetNickName()
-		Data.Cooike = Cookie
-		Data.Sessionkey = wxClient.AesDecrypt(loginRes.GetAuthSectResp().GetSessionKey().GetBuffer(), ecdhdecrptkey)
-		Data.Sessionkey_2 = loginRes.GetAuthSectResp().GetSessionKey().GetBuffer()
+		Data.Cookie = Cookie
+		Data.SessionKey = wxClient.AesDecrypt(loginRes.GetAuthSectResp().GetSessionKey().GetBuffer(), ecdhdecrptkey)
+		Data.SessionKey_2 = loginRes.GetAuthSectResp().GetSessionKey().GetBuffer()
 		Data.Autoauthkey = loginRes.GetAuthSectResp().GetAutoAuthKey().GetBuffer()
 		Data.Autoauthkeylen = int32(loginRes.GetAuthSectResp().GetAutoAuthKey().GetILen())
 		Data.Serversessionkey = loginRes.GetAuthSectResp().GetServerSessionKey().GetBuffer()

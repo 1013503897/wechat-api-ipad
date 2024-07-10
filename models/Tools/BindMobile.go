@@ -17,7 +17,7 @@ type BindMobileRequestParam struct {
 }
 
 func BindMobile(Data BindMobileRequestParam) wxClient.ResponseResult {
-	D, err := comm.GetLoginata(Data.Wxid)
+	D, err := comm.GetLoginData(Data.Wxid)
 	if err != nil {
 		return wxClient.ResponseResult{
 			Code:    -8,
@@ -33,7 +33,7 @@ func BindMobile(Data BindMobileRequestParam) wxClient.ResponseResult {
 	aeskey := []byte(wxClient.RandSeq(16)) //获取随机密钥
 	req := &mm.BindMobileRequest{
 		BaseRequest: &mm.BaseRequest{
-			SessionKey:    D.Sessionkey,
+			SessionKey:    D.SessionKey,
 			Uin:           proto.Uint32(D.Uin),
 			DeviceId:      D.Deviceid_byte,
 			ClientVersion: proto.Int32(int32(wxClient.WxClientVersion)),
@@ -48,7 +48,7 @@ func BindMobile(Data BindMobileRequestParam) wxClient.ResponseResult {
 		DialFlag:          proto.Int32(int32(0)),
 		InputMobileRetrys: proto.Uint32(5),
 		AuthTicket:        proto.String(D.AuthTicket),
-		ClientSeqID:       proto.String(wxClient.GetClientSeqId(D.Deviceid_str)),
+		ClientSeqID:       proto.String(wxClient.GetClientSeqId(D.DeviceidStr)),
 		SafeDeviceName:    proto.String(D.DeviceName),
 		SafeDeviceType:    proto.String(D.DeviceType),
 		RandomEncryKey: &mm.SKBuiltinBufferT{
@@ -79,8 +79,8 @@ func BindMobile(Data BindMobileRequestParam) wxClient.ResponseResult {
 			Reqdata:          reqData,
 			Cgi:              132,
 			Uin:              D.Uin,
-			Cookie:           D.Cooike,
-			Sessionkey:       D.Sessionkey,
+			Cookie:           D.Cookie,
+			SessionKey:       D.SessionKey,
 			EncryptType:      5,
 			Loginecdhkey:     D.Loginecdhkey,
 			Clientsessionkey: D.Clientsessionkey,
