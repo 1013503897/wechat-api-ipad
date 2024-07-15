@@ -1,6 +1,7 @@
 # WeChat API（iPad Protocol）
 
 基于iPad协议开发的微信机器人，仅用于学习与开发，切勿商用，否则后果自负。
+升级协议到850
 
 ![Golang](https://img.shields.io/badge/language-Golang-blue.svg)
 ![Beego](https://img.shields.io/badge/framework-Beego-green.svg)
